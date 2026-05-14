@@ -41,6 +41,9 @@ Carhuancote Domminguez, Gonzalo Alonso (u202210720)
 </h3>
 </div>
 
+
+
+# Capítulo I: Introducción
 ## 1.1 Startup Profile
 
 ### 1.1.1 Descripción de la Startup
@@ -428,5 +431,5 @@ Los usuarios buscan experiencias, pero enfrentan dificultades por la falta de in
 | **Doing** | Publica en Facebook e Instagram. | Recibe mensajes manualmente. | Estima asistentes por likes. | Publica cambios rápidamente. |
 | **Thinking** | ¿Cómo llegar a más personas? | ¿Cuántas entradas se vendieron? | ¿Vale la pena invertir más? | ¿Cómo evitar frustración? |
 | **Feeling** | Preocupación por bajo alcance. | Agobio por gestión manual. | Inseguridad por falta de métricas. | Estrés por cambios de último momento. |
-# Capítulo I: Introducción
+
 
