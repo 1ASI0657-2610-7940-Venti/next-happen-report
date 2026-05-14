@@ -41,6 +41,13 @@ Carhuancote Domminguez, Gonzalo Alonso (u202210720)
 </h3>
 </div>
 
+### Registro de versiones
+
+| Versión | Fecha      | Autor | Descripción de modificación |
+| ------- | ---------- | ----- | --------------------------- |
+| 1.0     | 15/04/2026 | Todos | Avance 1 TB1                |
+| 2.0     | 01/04/2026 | Todos | Avance 2 TB1                |
+
 # Índice
 
 - [Capítulo I: Introducción](#capítulo-i-introducción)
