@@ -1,4 +1,3 @@
-
 <div align="center">
 
 <p align="center">
@@ -38,10 +37,91 @@ Carhuancote Domminguez, Gonzalo Alonso (u202210720)
 <br>
 
 **2026**
+
 </h3>
 </div>
 
+# Índice
 
+- [Capítulo I: Introducción](#capítulo-i-introducción)
+  - [1.1 Startup Profile](#11-startup-profile)
+    - [1.1.1 Descripción de la Startup](#111-descripción-de-la-startup)
+    - [1.1.2 Perfiles de integrantes del equipo](#112-perfiles-de-integrantes-del-equipo)
+  - [1.2 Solution Profile](#12-solution-profile)
+    - [1.2.1 Nombre del producto](#121-nombre-del-producto)
+    - [1.2.2 Antecedentes y problemática](#122-antecedentes-y-problemática)
+    - [1.2.3 Lean UX Process](#123-lean-ux-process)
+      - [1.2.3.1 Lean UX Problem Statement](#1231-lean-ux-problem-statement)
+      - [1.2.3.2 Lean UX Assumptions](#1232-lean-ux-assumptions)
+      - [1.2.3.3 Lean UX Hypothesis](#1233-lean-ux-hypothesis)
+      - [1.2.3.4 Lean UX Canvas](#1234-lean-ux-canvas)
+  - [1.3 Segmentos objetivo](#13-segmentos-objetivo)
+
+- [Capítulo II: Requirements & Analysis](#capítulo-ii-requirements--analysis)
+  - [2.1 Competidores](#21-competidores)
+  - [2.2 Entrevistas](#22-entrevistas)
+  - [2.3 Needfinding](#23-needfinding)
+    - [2.3.1 User Personas](#231-user-personas)
+    - [2.3.2 User Task Matrix](#232-user-task-matrix)
+    - [2.3.3 Empathy Maps](#233-empathy-maps)
+    - [2.3.4 As-is Scenario Mapping](#234-as-is-scenario-mapping)
+
+- [Capítulo III: Requirements Specification](#capítulo-iii-requirements-specification)
+  - [3.1 To-Be Scenario Mapping](#31-to-be-scenario-mapping)
+  - [3.2 User Stories](#32-user-stories)
+  - [3.3 Impact Map](#33-impact-map)
+  - [3.4 Product Backlog](#34-product-backlog)
+
+- [Capítulo IV: Product Architecture Design](#capítulo-iv-product-architecture-design)
+  - [4.1 Design Concepts, ViewPoints & ER Diagrams](#41-design-concepts-viewpoints--er-diagrams)
+    - [4.1.1 Principles Statements](#411-principles-statements)
+    - [4.1.2 Approaches Statements Architectural Styles & Patterns](#412-approaches-statements-architectural-styles--patterns)
+    - [4.1.3 Context Diagram](#413-context-diagram)
+    - [4.1.4 Approach Driven ViewPoints Diagrams](#414-approach-driven-viewpoints-diagrams)
+    - [4.1.5 Relational/Non Relational Database Diagram](#415-relationalnon-relational-database-diagram)
+    - [4.1.6 Design Patterns](#416-design-patterns)
+    - [4.1.7 Tactics](#417-tactics)
+
+  - [4.2 Architectural Drivers](#42-architectural-drivers)
+    - [4.2.1 Design Purpose](#421-design-purpose)
+    - [4.2.2 Primary Functionality (Primary User Stories)](#422-primary-functionality-primary-user-stories)
+    - [4.2.3 Quality Attribute Scenarios](#423-quality-attribute-scenarios)
+    - [4.2.4 Constraints](#424-constraints)
+    - [4.2.5 Architectural Concerns](#425-architectural-concerns)
+
+  - [4.3 ADD Iterations](#43-add-iterations)
+    - [4.3.X Iteration N: <Iteration Name>](#43x-iteration-n-iteration-name)
+      - [4.3.X.1 Architectural Design Backlog N](#43x1-architectural-design-backlog-n)
+      - [4.3.X.2 Establish Iteration Goal by Selecting Drivers](#43x2-establish-iteration-goal-by-selecting-drivers)
+      - [4.3.X.3 Choose One or More Elements of the System to Refine](#43x3-choose-one-or-more-elements-of-the-system-to-refine)
+      - [4.3.X.4 Choose One or More Design Concepts That Satisfy the Selected Drivers](#43x4-choose-one-or-more-design-concepts-that-satisfy-the-selected-drivers)
+      - [4.3.X.5 Instantiate Architectural Elements, Allocate Responsibilities, and Define Interfaces](#43x5-instantiate-architectural-elements-allocate-responsibilities-and-define-interfaces)
+      - [4.3.X.6 Sketch Views (C4 & UML) and Record Design Decisions](#43x6-sketch-views-c4--uml-and-record-design-decisions)
+      - [4.3.X.7 Analysis of Current Design and Review Iteration Goal (Kanban Board)](#43x7-analysis-of-current-design-and-review-iteration-goal-kanban-board)
+
+- [Capítulo V: Product Implementation, Validation & Deployment](#capítulo-v-product-implementation-validation--deployment)
+  - [5.1 Testing Suites & General Patterns](#51-testing-suites--general-patterns)
+    - [5.1.1 Backend Application Core Testing Suite](#511-backend-application-core-testing-suite)
+    - [5.1.2 Pattern Based Backend Application(s)](#512-pattern-based-backend-applications)
+    - [5.1.3 Pattern Based Custom Software Library](#513-pattern-based-custom-software-library)
+    - [5.1.4 Framework Pattern Driven Refactoring Report](#514-framework-pattern-driven-refactoring-report)
+
+  - [5.2 Software Configuration Management](#52-software-configuration-management)
+    - [5.2.1 Software Development Environment Configuration](#521-software-development-environment-configuration)
+    - [5.2.2 Source Code Management](#522-source-code-management)
+    - [5.2.3 Source Code Style Guide & Conventions](#523-source-code-style-guide--conventions)
+    - [5.2.4 Software Deployment Configuration](#524-software-deployment-configuration)
+
+  - [5.3 Microservices Implementation](#53-microservices-implementation)
+    - [5.3.1 Sprint 1](#531-sprint-1)
+      - [5.3.1.1 Sprint Backlog 1](#5311-sprint-backlog-1)
+      - [5.3.1.2 Development Evidence for Sprint Review](#5312-development-evidence-for-sprint-review)
+      - [5.3.1.3 Testing Suite Evidence for Sprint Review](#5313-testing-suite-evidence-for-sprint-review)
+      - [5.3.1.4 Execution Evidence for Sprint Review](#5314-execution-evidence-for-sprint-review)
+      - [5.3.1.5 Microservices Documentation Evidence for Sprint Review](#5315-microservices-documentation-evidence-for-sprint-review)
+      - [5.3.1.6 Software Deployment Evidence for Sprint Review](#5316-software-deployment-evidence-for-sprint-review)
+      - [5.3.1.7 Team Collaboration Insights during Sprint](#5317-team-collaboration-insights-during-sprint)
+      - [5.3.1.8 Kanban Board](#5318-kanban-board)
 
 # Capítulo I: Introducción
 
@@ -59,11 +139,11 @@ Con un enfoque cercano, humano y auténtico, NextHappen se plantea como un puent
 
 ### 1.1.2 Perfiles de integrantes del equipo
 
-| Integrante | Descripción de la carrera | Conocimientos y habilidades a apuntar |
-|---|---|---|
-| Cabanillas Meza, José Mateo <br><img src="assets/img/integrantes/mateo.png" width="140"/> | Ingeniería de Software | Mi nombre es Mateo Cabanillas y en la actualidad estoy cursando el séptimo ciclo de la carrera de ingeniería de software en la Universidad Peruana de Ciencias Aplicadas, con una mente creativa y una actitud colaborativa. Mi amor por la programación y la resolución de problemas me impulsa a explorar nuevas soluciones y aportar ideas frescas a los proyectos. Como compañero de equipo, soy amable, atento y siempre estoy dispuesto a ayudar. Creo firmemente en la importancia de la comunicación efectiva y la colaboración para lograr resultados excepcionales. |
-| Marco Antonio Nakasone Gomes <br><img src="assets/img/integrantes/marco.png" width="140"/> | Ingeniería de Software | Tengo 21 años y estoy cursando el 8vo ciclo de la carrera de Ingeniería de Software. Considero que soy bueno trabajando de manera grupal y cumplo con todas las tareas a tiempo. Me gusta aportar con ideas buenas y óptimas para poder mejorar el trabajo. |
-| Gonzalo Alonso Carhuancote Dominguez <br><img src="assets/img/integrantes/gonzalo.png" width="140"/> | Ingeniería de Software | Tengo 21 años, estudio la carrera de ingeniería de software en la UPC y trabajo en desarrollo de software. En mis tiempos libres estudio, juego videojuegos y me informo del mundo actual y moderno. Me apasiona la tecnología y manejo lenguajes como C++, Java, Typescript y Python. |
+| Integrante                                                                                           | Descripción de la carrera | Conocimientos y habilidades a apuntar                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ---------------------------------------------------------------------------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cabanillas Meza, José Mateo <br><img src="assets/img/integrantes/mateo.png" width="140"/>            | Ingeniería de Software    | Mi nombre es Mateo Cabanillas y en la actualidad estoy cursando el séptimo ciclo de la carrera de ingeniería de software en la Universidad Peruana de Ciencias Aplicadas, con una mente creativa y una actitud colaborativa. Mi amor por la programación y la resolución de problemas me impulsa a explorar nuevas soluciones y aportar ideas frescas a los proyectos. Como compañero de equipo, soy amable, atento y siempre estoy dispuesto a ayudar. Creo firmemente en la importancia de la comunicación efectiva y la colaboración para lograr resultados excepcionales. |
+| Marco Antonio Nakasone Gomes <br><img src="assets/img/integrantes/marco.png" width="140"/>           | Ingeniería de Software    | Tengo 21 años y estoy cursando el 8vo ciclo de la carrera de Ingeniería de Software. Considero que soy bueno trabajando de manera grupal y cumplo con todas las tareas a tiempo. Me gusta aportar con ideas buenas y óptimas para poder mejorar el trabajo.                                                                                                                                                                                                                                                                                                                   |
+| Gonzalo Alonso Carhuancote Dominguez <br><img src="assets/img/integrantes/gonzalo.png" width="140"/> | Ingeniería de Software    | Tengo 21 años, estudio la carrera de ingeniería de software en la UPC y trabajo en desarrollo de software. En mis tiempos libres estudio, juego videojuegos y me informo del mundo actual y moderno. Me apasiona la tecnología y manejo lenguajes como C++, Java, Typescript y Python.                                                                                                                                                                                                                                                                                        |
 
 ---
 
@@ -175,16 +255,16 @@ Cuando la valoración media alcance 4.2/5 o más y los reclamos disminuyan en al
 
 ### 1.2.3.4 Lean UX Canvas
 
-| Sección | Contenido |
-|---|---|
-| Business Problem | La información sobre ferias y eventos independientes está dispersa en redes sociales y medios digitales, dificultando que los usuarios encuentren opciones confiables y relevantes. |
-| Solutions | Mapa interactivo, alertas personalizadas, panel de gestión para emprendedores, recomendaciones personalizadas y sistema de reseñas. |
-| Business Outcomes | Incrementar usuarios, reducir frustración, aumentar visibilidad de emprendedores y posicionar NextHappen como referente. |
-| Users | Personas que buscan experiencias alternativas, asistentes frecuentes a ferias, organizadores y emprendedores culturales. |
-| User Outcomes & Benefits | Descubrir ferias fácilmente, comprar entradas rápidas, recibir alertas confiables y mejorar difusión de eventos. |
-| Hypotheses | Uso de mapas, alertas, recomendaciones y paneles de gestión para mejorar asistencia y experiencia. |
-| What’s the most important thing we need to learn first? | Validar si los usuarios confiarán en NextHappen como fuente principal de información. |
-| What’s the least amount of work we need to do? | Crear un prototipo inicial con mapa, búsqueda básica y alertas simples para validar el flujo. |
+| Sección                                                 | Contenido                                                                                                                                                                           |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Business Problem                                        | La información sobre ferias y eventos independientes está dispersa en redes sociales y medios digitales, dificultando que los usuarios encuentren opciones confiables y relevantes. |
+| Solutions                                               | Mapa interactivo, alertas personalizadas, panel de gestión para emprendedores, recomendaciones personalizadas y sistema de reseñas.                                                 |
+| Business Outcomes                                       | Incrementar usuarios, reducir frustración, aumentar visibilidad de emprendedores y posicionar NextHappen como referente.                                                            |
+| Users                                                   | Personas que buscan experiencias alternativas, asistentes frecuentes a ferias, organizadores y emprendedores culturales.                                                            |
+| User Outcomes & Benefits                                | Descubrir ferias fácilmente, comprar entradas rápidas, recibir alertas confiables y mejorar difusión de eventos.                                                                    |
+| Hypotheses                                              | Uso de mapas, alertas, recomendaciones y paneles de gestión para mejorar asistencia y experiencia.                                                                                  |
+| What’s the most important thing we need to learn first? | Validar si los usuarios confiarán en NextHappen como fuente principal de información.                                                                                               |
+| What’s the least amount of work we need to do?          | Crear un prototipo inicial con mapa, búsqueda básica y alertas simples para validar el flujo.                                                                                       |
 
 ---
 
@@ -195,12 +275,14 @@ Cuando la valoración media alcance 4.2/5 o más y los reclamos disminuyan en al
 Este segmento agrupa a jóvenes limeños en búsqueda de experiencias diferentes, familias que organizan planes de fin de semana y turistas o residentes extranjeros interesados en conocer la ciudad de manera auténtica.
 
 #### Necesidades
+
 - Información centralizada y confiable.
 - Compra rápida de entradas.
 - Recomendaciones personalizadas.
 - Detalles claros de ubicación y horarios.
 
 #### Características
+
 - Uso frecuente de smartphones y redes sociales.
 - Interés en actividades culturales y gastronómicas.
 - Alta disposición a compartir experiencias.
@@ -212,14 +294,14 @@ Este segmento agrupa a jóvenes limeños en búsqueda de experiencias diferentes
 Este segmento incluye a los responsables de crear y gestionar ferias, eventos independientes y propuestas culturales emergentes.
 
 #### Necesidades
+
 - Mayor visibilidad y alcance.
 - Herramientas para gestionar eventos.
 - Comunicación directa con asistentes.
 - Acceso a métricas de desempeño.
 
 #### Características
+
 - Interés en soluciones tecnológicas prácticas.
 - Participación activa en el ecosistema cultural.
 - Necesidad de optimizar recursos y maximizar asistencia.
-
-
