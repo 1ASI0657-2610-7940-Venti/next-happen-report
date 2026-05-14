@@ -474,7 +474,7 @@ services:
 
 ---
 
-## Variables de entorno
+### Variables de entorno
 
 Las configuraciones sensibles fueron gestionadas mediante variables de entorno.
 
@@ -489,7 +489,7 @@ JWT_SECRET=secret_key
 
 ---
 
-## Beneficios del despliegue configurado
+### Beneficios del despliegue configurado
 
 - Facilidad para levantar entornos completos.
 - Compatibilidad entre máquinas del equipo.
@@ -498,20 +498,262 @@ JWT_SECRET=secret_key
 - Escalabilidad futura basada en contenedores Docker.
 ## 5.3 Microservices Implementation
 
-### 5.3.1 Sprint 1
+La implementación de microservicios en NextHappen fue realizada siguiendo una arquitectura desacoplada basada en servicios independientes desarrollados con ASP.NET Core Web API. Cada microservicio fue diseñado para cumplir responsabilidades específicas del negocio, permitiendo escalabilidad, mantenibilidad y despliegue independiente.
 
-#### 5.3.1.1 Sprint Backlog 1
+La solución fue desarrollada utilizando .NET 8, Vue.js, MySQL y Docker, aplicando principios de arquitectura limpia y comunicación mediante APIs REST.
 
-#### 5.3.1.2 Development Evidence for Sprint Review
+Durante el Sprint 1 se desarrollaron las funcionalidades iniciales relacionadas con autenticación, gestión de eventos y configuración base del sistema.
 
-#### 5.3.1.3 Testing Suite Evidence for Sprint Review
+---
 
-#### 5.3.1.4 Execution Evidence for Sprint Review
+## 5.3.1 Sprint 1
 
-#### 5.3.1.5 Microservices Documentation Evidence for Sprint Review
+Durante el Sprint 1 el equipo se enfocó en la configuración inicial del proyecto, implementación de la arquitectura base y desarrollo de los primeros microservicios necesarios para la plataforma.
 
-#### 5.3.1.6 Software Deployment Evidence for Sprint Review
+La duración del Sprint fue de 2 semanas bajo metodología Scrum.
 
-#### 5.3.1.7 Team Collaboration Insights during Sprint
+---
 
-#### 5.3.1.8 Kanban Board
+## 5.3.1.1 Sprint Backlog 1
+
+El Sprint Backlog estuvo compuesto por las siguientes User Stories priorizadas:
+
+| User Story ID | Título | Descripción | Responsable | Estado |
+|---|---|---|---|---|
+| US01 | Configuración inicial del proyecto | Como desarrollador, deseo configurar el entorno base para iniciar el desarrollo del sistema | Equipo | Completado |
+| US02 | Gestión de autenticación | Como usuario, deseo iniciar sesión para acceder a funcionalidades personalizadas | Backend | Completado |
+| US03 | Registro de usuarios | Como visitante, deseo registrarme para utilizar la plataforma | Backend | Completado |
+| US04 | Visualización de eventos | Como usuario, deseo visualizar eventos disponibles | Frontend | Completado |
+| US05 | Configuración Docker | Como desarrollador, deseo contenerizar los servicios para facilitar despliegues | DevOps | Completado |
+
+---
+
+## 5.3.1.2 Development Evidence for Sprint Review
+
+Durante el Sprint 1 se desarrollaron los siguientes componentes:
+
+### Backend
+
+- Creación de solución ASP.NET Core.
+- Implementación de arquitectura por capas.
+- Configuración de Entity Framework Core.
+- Implementación de endpoints REST.
+- Configuración de autenticación JWT.
+- Conexión con base de datos MySQL.
+
+### Frontend
+
+- Inicialización del proyecto Vue.js.
+- Configuración de Vue Router.
+- Creación de vistas iniciales.
+- Integración con APIs REST.
+- Implementación de componentes reutilizables.
+
+### Microservicios implementados
+
+| Microservicio | Responsabilidad |
+|---|---|
+| Auth Service | Gestión de autenticación y JWT |
+| User Service | Gestión de usuarios |
+| Event Service | Gestión y consulta de eventos |
+
+---
+
+## 5.3.1.3 Testing Suite Evidence for Sprint Review
+
+Se realizaron pruebas funcionales y de integración para validar el correcto funcionamiento de los servicios implementados.
+
+### Herramientas utilizadas
+
+| Herramienta | Uso |
+|---|---|
+| Postman | Pruebas de APIs |
+| Swagger | Validación de endpoints |
+| Docker Logs | Verificación de ejecución |
+| MySQL Workbench | Validación de persistencia |
+
+### Pruebas realizadas
+
+#### Auth Service
+
+- Registro de usuarios.
+- Inicio de sesión.
+- Generación de JWT.
+- Validación de credenciales inválidas.
+
+#### Event Service
+
+- Consulta de eventos.
+- Validación de respuestas HTTP.
+- Persistencia de eventos en base de datos.
+
+### Resultados
+
+Las pruebas realizadas permitieron verificar:
+
+- Correcta comunicación entre frontend y backend.
+- Persistencia adecuada en MySQL.
+- Funcionamiento de autenticación JWT.
+- Respuestas REST exitosas.
+
+---
+
+## 5.3.1.4 Execution Evidence for Sprint Review
+
+La ejecución del sistema fue validada mediante despliegue local utilizando Docker Compose.
+
+### Evidencias de ejecución
+
+- Contenedores ejecutándose correctamente.
+- Frontend accesible desde navegador.
+- APIs respondiendo mediante Swagger.
+- Conexión exitosa con MySQL.
+
+### Servicios desplegados
+
+| Servicio | Puerto |
+|---|---|
+| Frontend Vue.js | 5173 |
+| Auth Service | 8081 |
+| User Service | 8082 |
+| Event Service | 8083 |
+| MySQL | 3306 |
+
+### Validaciones realizadas
+
+- Inicio de sesión exitoso.
+- Registro de nuevos usuarios.
+- Consulta de eventos desde frontend.
+- Persistencia de información en base de datos.
+
+---
+
+## 5.3.1.5 Microservices Documentation Evidence for Sprint Review
+
+La documentación técnica de los microservicios fue realizada utilizando Swagger/OpenAPI.
+
+### Contenido documentado
+
+- Endpoints disponibles.
+- Métodos HTTP.
+- Parámetros requeridos.
+- Respuestas esperadas.
+- Códigos de estado HTTP.
+
+### Microservicios documentados
+
+| Microservicio | Documentación |
+|---|---|
+| Auth Service | Swagger |
+| User Service | Swagger |
+| Event Service | Swagger |
+
+### Beneficios
+
+- Facilita integración frontend-backend.
+- Simplifica pruebas de APIs.
+- Mejora mantenibilidad del sistema.
+- Permite escalabilidad futura.
+
+---
+
+## 5.3.1.6 Software Deployment Evidence for Sprint Review
+
+El despliegue inicial fue realizado utilizando Docker y Docker Compose.
+
+### Componentes desplegados
+
+- Frontend Vue.js.
+- APIs ASP.NET Core.
+- Base de datos MySQL.
+
+### Evidencias del despliegue
+
+- Construcción correcta de imágenes Docker.
+- Ejecución de contenedores.
+- Comunicación entre servicios.
+- Persistencia de datos funcional.
+
+### Docker Compose
+
+```yaml
+version: '3.9'
+
+services:
+  auth-service:
+    build: ./AuthService
+    ports:
+      - "8081:8080"
+
+  user-service:
+    build: ./UserService
+    ports:
+      - "8082:8080"
+
+  event-service:
+    build: ./EventService
+    ports:
+      - "8083:8080"
+
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+```
+
+---
+
+## 5.3.1.7 Team Collaboration Insights during Sprint
+
+Durante el Sprint 1 el equipo trabajó bajo metodología Scrum utilizando reuniones periódicas y herramientas colaborativas.
+
+### Herramientas utilizadas
+
+| Herramienta | Propósito |
+|---|---|
+| Trello | Gestión de tareas |
+| GitHub | Control de versiones |
+| Discord / Meet | Comunicación |
+| Docker | Integración de entornos |
+
+### Dinámica de trabajo
+
+- Reuniones de planificación al inicio del Sprint.
+- Daily meetings para seguimiento.
+- Revisión de Pull Requests.
+- Trabajo paralelo entre frontend y backend.
+
+### Aprendizajes obtenidos
+
+- Mejor organización mediante Trello.
+- Importancia de ramas feature en Git.
+- Coordinación efectiva entre servicios.
+- Beneficios de Docker para integración.
+
+---
+
+## 5.3.1.8 Kanban Board --> TP1
+
+El tablero Kanban fue gestionado mediante Trello para visualizar el avance de las tareas del Sprint 1.
+
+### Columnas utilizadas
+
+- Backlog
+- To Do
+- In Progress
+- Review
+- Done
+
+### Funcionalidades del tablero
+
+- Asignación de tareas por integrante.
+- Seguimiento del estado de User Stories.
+- Priorización de actividades.
+- Control visual del avance del Sprint.
+
+### Resultados obtenidos
+
+- Mejor organización del equipo.
+- Mayor visibilidad del progreso.
+- Reducción de tareas bloqueadas.
+- Seguimiento eficiente del Sprint.
