@@ -186,14 +186,316 @@ Se añadió una suite de Pruebas Unitarias e Integrales utilizando xUnit y Moq. 
 
 ## 5.2 Software Configuration Management
 
+La gestión de configuración de software en NextHappen tiene como objetivo garantizar el control, seguimiento y estabilidad del desarrollo de la aplicación web y sus microservicios. Para ello, el equipo definió herramientas, estándares y procesos que permiten mantener consistencia en el código, facilitar el trabajo colaborativo y asegurar despliegues confiables utilizando contenedores Docker.
+
+La estrategia de Software Configuration Management (SCM) aplicada contempla la configuración del entorno de desarrollo, la administración del código fuente mediante Git y GitHub, el uso de convenciones de codificación para mantener calidad y mantenibilidad, y la configuración automatizada del despliegue de los servicios.
+
+---
+
 ### 5.2.1 Software Development Environment Configuration
 
-### 5.2.2 Source Code Management
+Para el desarrollo del proyecto NextHappen se configuró un entorno moderno orientado al desarrollo web basado en microservicios utilizando tecnologías .NET y Vue.js.
 
-### 5.2.3 Source Code Style Guide & Conventions
+### Herramientas utilizadas
 
-### 5.2.4 Software Deployment Configuration
+| Herramienta | Propósito |
+|---|---|
+| Visual Studio 2022 | Desarrollo Backend en C# |
+| Visual Studio Code | Desarrollo Frontend |
+| Vue.js | Desarrollo de interfaz web |
+| .NET 8 | Desarrollo de APIs REST |
+| MySQL | Persistencia de datos |
+| Docker | Contenerización de servicios |
+| Git | Control de versiones |
+| GitHub | Repositorio remoto |
+| Trello | Gestión ágil del proyecto |
+| Postman | Pruebas de APIs |
 
+### Configuración del entorno
+
+El entorno fue configurado siguiendo los siguientes pasos:
+
+1. Instalación de Visual Studio 2022 con soporte para ASP.NET Core.
+2. Instalación de Node.js y Vue CLI.
+3. Configuración de Docker Desktop.
+4. Instalación y configuración de MySQL Server.
+5. Clonación del repositorio desde GitHub.
+6. Restauración de dependencias mediante NuGet y npm.
+7. Configuración de variables de entorno mediante archivos `.env`.
+8. Ejecución local de frontend y backend.
+
+### Configuración del backend
+
+El backend fue desarrollado utilizando ASP.NET Core Web API en .NET 8.
+
+### Dependencias principales
+
+```bash
+Microsoft.EntityFrameworkCore
+Pomelo.EntityFrameworkCore.MySql
+Swashbuckle.AspNetCore
+AutoMapper
+```
+
+### Configuración del frontend
+
+El frontend utiliza Vue.js como framework principal.
+
+### Dependencias principales
+
+```bash
+vue
+vue-router
+pinia
+axios
+```
+
+### Beneficios del entorno configurado
+
+- Compatibilidad entre todos los integrantes.
+- Desarrollo modular y escalable.
+- Facilidad de pruebas locales.
+- Integración rápida mediante Docker.
+- Separación clara entre frontend y backend.
+
+---
+
+## 5.2.2 Source Code Management
+
+La gestión del código fuente se realizó utilizando Git como sistema de control de versiones distribuido y GitHub como plataforma colaborativa.
+
+### Estrategia de ramas
+
+El equipo utilizó una estrategia basada en Git Flow simplificado.
+
+| Rama | Propósito |
+|---|---|
+| `main` | Versión estable del proyecto |
+| `develop` | Integración de funcionalidades |
+| `feature/*` | Nuevas funcionalidades |
+| `hotfix/*` | Correcciones urgentes |
+
+### Flujo de trabajo
+
+1. Cada integrante creaba una rama `feature`.
+2. Se desarrollaban funcionalidades localmente.
+3. Los cambios eran registrados mediante commits descriptivos.
+4. Se realizaban Pull Requests hacia `develop`.
+5. El código era revisado antes de aprobarse.
+6. Las versiones estables eran integradas en `main`.
+
+### Convenciones de commits
+
+El equipo utilizó commits descriptivos para mantener trazabilidad.
+
+```bash
+feat: agregar gestión de eventos
+fix: corregir autenticación JWT
+docs: actualizar README
+refactor: optimizar servicio de usuarios
+```
+
+### Gestión ágil del proyecto
+
+El seguimiento de tareas y avances fue realizado mediante Trello.
+
+### Uso de Trello
+
+- Gestión del Product Backlog.
+- Organización de tareas por Sprint.
+- Seguimiento del progreso del equipo.
+- Control visual de actividades pendientes y completadas.
+
+## Beneficios obtenidos
+
+- Mejor organización del trabajo colaborativo.
+- Historial claro de cambios.
+- Reducción de conflictos entre desarrolladores.
+- Mayor control sobre versiones del software.
+
+---
+
+## 5.2.3 Source Code Style Guide & Conventions
+
+Con el objetivo de mantener calidad, legibilidad y mantenibilidad, el equipo estableció convenciones de codificación para frontend y backend.
+
+## Convenciones generales
+
+- Uso de nombres descriptivos.
+- Código modular y reutilizable.
+- Separación de responsabilidades.
+- Evitar duplicidad de código.
+- Documentación básica en métodos importantes.
+
+---
+
+## Backend (.NET / C#)
+
+### Convenciones aplicadas
+
+| Elemento | Convención |
+|---|---|
+| Clases | PascalCase |
+| Variables | camelCase |
+| Interfaces | Prefijo `I` |
+| Métodos | PascalCase |
+| Constantes | UPPER_CASE |
+
+### Ejemplo
+
+```csharp
+public class EventService : IEventService
+{
+    public async Task<EventDto> GetEventById(int id)
+    {
+        return await _repository.FindById(id);
+    }
+}
+```
+
+---
+
+## Frontend (Vue.js)
+
+### Convenciones aplicadas
+
+| Elemento | Convención |
+|---|---|
+| Componentes | PascalCase |
+| Variables | camelCase |
+| Archivos Vue | PascalCase |
+| Rutas | kebab-case |
+
+### Ejemplo
+
+```javascript
+const fetchEvents = async () => {
+  const response = await api.get('/events');
+  return response.data;
+};
+```
+
+---
+
+## Herramientas de calidad
+
+| Herramienta | Función |
+|---|---|
+| ESLint | Validación de código JavaScript |
+| Prettier | Formateo automático |
+| StyleCop | Convenciones C# |
+| Swagger | Documentación de APIs |
+
+## Beneficios
+
+- Código uniforme y fácil de entender.
+- Mayor mantenibilidad.
+- Facilidad para realizar revisiones de código.
+- Reducción de errores de desarrollo.
+
+---
+
+## 5.2.4 Software Deployment Configuration
+
+La configuración de despliegue de NextHappen fue diseñada para facilitar la ejecución y publicación de los microservicios utilizando Docker.
+
+### Arquitectura de despliegue
+
+La solución está compuesta por:
+
+| Componente | Tecnología |
+|---|---|
+| Frontend | Vue.js |
+| Backend | ASP.NET Core Web API |
+| Base de datos | MySQL |
+| Contenedores | Docker |
+
+---
+
+### Dockerización
+
+Cada servicio cuenta con su propio archivo `Dockerfile`.
+
+### Dockerfile Backend
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY publish .
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "NextHappen.Api.dll"]
+```
+
+### Dockerfile Frontend
+
+```dockerfile
+FROM node:20
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build
+EXPOSE 5173
+CMD ["npm", "run", "dev"]
+```
+
+---
+
+## Docker Compose
+
+Se utilizó Docker Compose para ejecutar todos los servicios localmente.
+
+### Servicios incluidos
+
+- Frontend Vue.js
+- Backend .NET API
+- Base de datos MySQL
+
+### Ejemplo básico
+
+```yaml
+version: '3.9'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+```
+
+---
+
+## Variables de entorno
+
+Las configuraciones sensibles fueron gestionadas mediante variables de entorno.
+
+```env
+DB_HOST=mysql
+DB_PORT=3306
+DB_NAME=nexthappen
+DB_USER=root
+DB_PASSWORD=root
+JWT_SECRET=secret_key
+```
+
+---
+
+## Beneficios del despliegue configurado
+
+- Facilidad para levantar entornos completos.
+- Compatibilidad entre máquinas del equipo.
+- Despliegues rápidos y reproducibles.
+- Separación de servicios.
+- Escalabilidad futura basada en contenedores Docker.
 ## 5.3 Microservices Implementation
 
 ### 5.3.1 Sprint 1
