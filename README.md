@@ -19,7 +19,7 @@ NRC: 7940
 <br><br>
 Docente: Mori Yzaguirre, Daniel Enrique  
 <br><br>
-<strong>Informe de TB2</strong>  
+<strong>Informe de Trabajo Final (TF)</strong>  
 <br><br>
 Startup: Venti  
 <br><br>
@@ -48,7 +48,9 @@ Carhuancote Domminguez, Gonzalo Alonso (u202210720)
 | Versión | Fecha      | Autor | Descripción de modificación |
 | ------- | ---------- | ----- | --------------------------- |
 | 1.0     | 15/04/2026 | Todos | Avance 1 TB1                |
-| 2.0     | 01/04/2026 | Todos | Avance 2 TB1                |
+| 2.0     | 01/05/2026 | Todos | Avance 2 TB1                |
+| 3.0     | 25/05/2026 | Todos | Entrega de Trabajo Parcial (TP) |
+| 4.0     | 06/06/2026 | Todos | Entrega de Trabajo Final (TF) - Mejoras Arquitectónicas y DDD |
 
 # ABET – EAC - Student Outcome 7
 
@@ -745,7 +747,38 @@ El diagrama de estados modela el ciclo de vida de un ticket, desde su creación 
 
 El diagrama de base de datos representa las entidades principales del sistema NextHappen y sus relaciones. Se identifican entidades como usuarios, eventos, tickets, categorías, reseñas y notificaciones, las cuales permiten soportar las funcionalidades clave del sistema como la gestión de eventos, compra de entradas, personalización y comunicación con los usuarios. Las relaciones entre tablas garantizan la integridad referencial y permiten una correcta organización de la información dentro del sistema.
 
-### 4.1.6 Design Patterns
+### 4.1.6 Domain-Driven Design (DDD)
+
+Para garantizar la mantenibilidad y el desacoplamiento en una arquitectura de microservicios, NextHappen adopta los principios de Domain-Driven Design (DDD).
+
+#### 4.1.6.1 Strategic Design
+
+Se han identificado los siguientes **Bounded Contexts** (Contextos Delimitados) que corresponden a los microservicios del sistema:
+
+*   **IAM Context:** Encargado de la seguridad, autenticación y gestión de perfiles de usuario.
+*   **Event Management Context:** Núcleo del sistema que gestiona el catálogo de ferias, categorías y geolocalización.
+*   **Booking Context:** Gestiona el ciclo de vida de la compra de entradas, stock y procesamiento de pagos.
+*   **Engagement Context:** Maneja la interacción social, reseñas y feedback de los usuarios sobre los eventos.
+*   **Notification Context:** Responsable de la entrega de alertas push y correos electrónicos mediante eventos de dominio.
+
+**Context Map:** La comunicación entre contextos se realiza principalmente mediante **Customer-Supplier** (ej. Booking depende de Event) y **Published Language** a través del bus de eventos (RabbitMQ).
+
+#### 4.1.6.2 Tactical Design
+
+A continuación se definen los principales **Aggregates** (Agregados) para los contextos clave:
+
+*   **Aggregate: User (IAM Context)**
+    *   *Root:* User (Entity)
+    *   *Value Objects:* Email, Password (hashed), Role.
+*   **Aggregate: FairEvent (Event Context)**
+    *   *Root:* Event (Entity)
+    *   *Value Objects:* Location (Lat/Long), DateRange, Category.
+    *   *Entities:* FairOrganizer.
+*   **Aggregate: Ticket (Booking Context)**
+    *   *Root:* Ticket (Entity)
+    *   *Value Objects:* TicketStatus (Enum), Price, QRCode.
+
+### 4.1.7 Design Patterns
 
 A lo largo del desarrollo de NextHappen, se aplicarán los siguientes patrones de diseño de software (Design Patterns / GoF) y de arquitectura para asegurar la calidad del código:
 
@@ -776,16 +809,22 @@ Las funcionalidades primarias de mayor impacto arquitectónico (por su volumen d
 
 ### 4.1.10 Quality Attribute Scenarios
 
-*   **QA-1 Disponibilidad (Availability):** Si el microservicio de gestión de pagos cae durante un fin de semana, el catálogo y mapa interactivo de eventos debe seguir funcionando de forma degradada (Read-Only) permitiendo a los usuarios al menos ver los eventos gratuitos o revisar la ubicación de los eventos ya comprados, sin que el sistema colapse por completo.
-*   **QA-2 Escalabilidad (Scalability):** Durante un anuncio viral de un evento independiente muy esperado, el sistema experimenta un aumento del 500% de peticiones por minuto. El clúster de microservicios en la nube debe escalar horizontalmente (Auto-scaling) en menos de 2 minutos para mantener el tiempo de respuesta por debajo de 1.5 segundos.
-*   **QA-3 Rendimiento (Performance):** Cuando un usuario navega por el mapa interactivo de NextHappen, las consultas espaciales (búsqueda por radio geográfico) deben resolverse en la base de datos (MongoDB) y renderizarse en el frontend en un máximo de 2 segundos en conexiones móviles 4G.
-*   **QA-4 Seguridad (Security):** Todo el tráfico que ingresa a la plataforma desde la aplicación web o móvil debe ser autenticado en menos de 500ms utilizando un token JWT, asegurando que ninguna petición no autorizada llegue a la red privada de microservicios.
+Para validar la arquitectura, se han definido escenarios de atributos de calidad utilizando el formato estándar:
+
+| ID | Atributo | Escenario (Source -> Stimulus -> Artifact -> Environment -> Response -> Measure) |
+| :--- | :--- | :--- |
+| **QA-1** | **Disponibilidad** | **Fuente:** Usuario final. **Estímulo:** Microservicio de pagos fuera de línea. **Artefacto:** Sistema Central. **Entorno:** Operación normal en fin de semana. **Respuesta:** El sistema activa el modo "Read-Only". **Medida:** El catálogo de eventos sigue disponible para consulta en el 100% de los casos. |
+| **QA-2** | **Escalabilidad** | **Fuente:** Redes sociales (viralización). **Estímulo:** Incremento de 500% de peticiones/min. **Artefacto:** Clúster de Microservicios. **Entorno:** Pico de tráfico imprevisto. **Respuesta:** Auto-scaling de instancias .NET. **Medida:** Nueva capacidad operativa en menos de 120 segundos sin pérdida de peticiones. |
+| **QA-3** | **Rendimiento** | **Fuente:** Usuario móvil. **Estímulo:** Búsqueda por radio geográfico. **Artefacto:** Event Service + MongoDB. **Entorno:** Conexión 4G/5G. **Respuesta:** Ejecución de consulta espacial optimizada con índices. **Medida:** Tiempo de respuesta (TTFB) menor a 1.5 segundos. |
+| **QA-4** | **Seguridad** | **Fuente:** Actor malintencionado. **Estímulo:** Intento de acceso a API de reserva sin token. **Artefacto:** API Gateway. **Entorno:** Operación remota. **Respuesta:** Denegación de acceso (401 Unauthorized). **Medida:** Latencia de validación JWT menor a 300ms. |
+
 
 ### 4.1.11 Constraints
 
-1.  **Tecnológicas:** El desarrollo se restringirá a frameworks open source modernos y ampliamente adoptados por la industria y la comunidad académica (ej. Node.js, Spring Boot, React/Angular) para asegurar soporte a largo plazo y facilidad de implementación.
-2.  **Tiempo (Time to Market):** El proyecto debe desarrollarse e implementarse a nivel funcional en ciclos cortos de 2 a 3 semanas (Sprints), limitando la creación de componentes personalizados en favor de soluciones nativas de la nube administradas (PaaS o SaaS como RDS, MongoDB Atlas).
-3.  **Presupuesto Inicial:** La infraestructura debe ser hospedada en proveedores de Cloud Computing (AWS o Azure) utilizando inicialmente la capa gratuita (Free Tier) o créditos académicos, forzando a la arquitectura a ser liviana e eficiente en el uso de recursos de cómputo.
+1.  **Tecnológicas:** El desarrollo se restringirá a frameworks modernos y multiplataforma (.NET 9 para el backend, Vue.js para la web y Flutter para móviles) para asegurar un alto rendimiento y facilidad de integración en entornos de contenedores.
+2.  **Tiempo (Time to Market):** El proyecto debe desarrollarse e implementarse a nivel funcional en ciclos cortos de 2 a 3 semanas (Sprints), limitando la creación de componentes personalizados en favor de soluciones nativas de la nube administradas (PaaS o SaaS como Azure SQL, MongoDB Atlas).
+3.  **Presupuesto Inicial:** La infraestructura debe ser hospedada en proveedores de Cloud Computing (Azure o AWS) utilizando inicialmente la capa gratuita (Free Tier) o créditos académicos, forzando a la arquitectura a ser liviana e eficiente en el uso de recursos de cómputo.
+
 
 ### 4.1.12 Architectural Concerns
 
@@ -825,13 +864,13 @@ En esta fase se seleccionan los elementos de software y de infraestructura que r
 
 | Elementos del Sistema | Capa / Contexto | Descripción de Refinamiento |
 | :--- | :--- | :--- |
-| Web App (Angular) | Presentación | Interfaz web para que los Organizadores gestionen ferias y los asistentes busquen eventos desde el navegador. |
+| Web App (Vue.js) | Presentación | Interfaz web para que los Organizadores gestionen ferias y los asistentes busquen eventos desde el navegador. |
 | Mobile App (Flutter) | Presentación | Aplicación para Asistentes enfocada en la portabilidad, búsqueda rápida (US06) y acceso a tickets QR (US11). |
-| API Gateway (Spring Cloud) | Infraestructura Perímetro | Configurar como punto único de entrada para aplicar Load Balancing (QA-01) y permitir el Escalado Horizontal (QA-02) redirigiendo tráfico. |
-| Módulo de Autenticación (Auth Service) | Seguridad Identidad | Implementar la lógica de gestión de identidades y generación de tokens JWT para cumplir con el QA-04. Centraliza el acceso de usuarios (US01). |
-| Catálogo de Eventos (Event Service) | Negocio Dominio | Refinar el componente de búsqueda y filtrado de la US06. Se diseña para ser un servicio independiente con su propia persistencia para escalar. |
-| Módulo de Compras (Booking Service) | Negocio Persistencia | Diseñar la lógica de reserva y venta de la US11, asegurando la consistencia de datos y la capacidad de respuesta bajo alta concurrencia. |
-| Servidor de Descubrimiento (Eureka) | Infraestructura Red | Establecer el registro dinámico de microservicios para permitir que el Gateway detecte nuevas instancias escaladas automáticamente (QA-01 y QA-02). |
+| API Gateway (YARP / Ocelot) | Infraestructura Perímetro | Configurar como punto único de entrada para aplicar Load Balancing (QA-01) y permitir el Escalado Horizontal (QA-02) redirigiendo tráfico. |
+| IAM Service (.NET) | Seguridad Identidad | Implementar la lógica de gestión de identidades y generación de tokens JWT para cumplir con el QA-04. Centraliza el acceso de usuarios (US01). |
+| Event Service (.NET) | Negocio Dominio | Refinar el componente de búsqueda y filtrado de la US06. Se diseña para ser un servicio independiente con su propia persistencia para escalar. |
+| Booking Service (.NET) | Negocio Persistencia | Diseñar la lógica de reserva y venta de la US11, asegurando la consistencia de datos y la capacidad de respuesta bajo alta concurrencia. |
+| RabbitMQ / MassTransit | Infraestructura Mensajería | Establecer la comunicación asíncrona entre microservicios para garantizar el desacoplamiento y la disponibilidad (QA-01). |
 
 #### 4.3.1.4 Choose One or More Design Concepts That Satisfy the Selected Drivers
 
@@ -839,10 +878,10 @@ En esta sección se seleccionan las tácticas y patrones de diseño que permiten
 
 | Driver Seleccionado | Tipo | Concepto de Diseño / Patrón Seleccionado | Justificación |
 | :--- | :--- | :--- | :--- |
-| QA-01 Disponibilidad | Atributo | Replicación de Servicios + Health Checks | Permite mantener múltiples instancias de los servicios de Eventos y Compras activas; si una falla, el sistema redirige el tráfico a las sanas. |
-| QA-02 Escalabilidad | Atributo | Escalado Horizontal + Service Discovery | Facilita la adición dinámica de nuevos nodos de procesamiento mediante Eureka, permitiendo que el sistema soporte incrementos de usuarios concurrentes sin degradarse. |
+| QA-01 Disponibilidad | Atributo | Replicación de Servicios + Health Checks | Permite mantener múltiples instancias de los servicios activas; si una falla, el Gateway redirige el tráfico a las instancias sanas. |
+| QA-02 Escalabilidad | Atributo | Escalado Horizontal + Stateless Services | Los microservicios de .NET se diseñan sin estado para permitir la adición dinámica de nuevos nodos según la carga de tráfico. |
 | QA-04 Seguridad | Atributo | API Gateway + Centralized JWT | Centraliza la validación de identidad en la periferia del sistema, asegurando que solo peticiones autenticadas lleguen a los microservicios de negocio. |
-| US11 Compra de Entradas | User Story | Database per Service | Garantiza que el servicio de Booking tenga su propia persistencia, evitando cuellos de botella en la base de datos durante transacciones masivas. |
+| US11 Compra de Entradas | User Story | Database per Service | Garantiza que el servicio de Booking tenga su propia persistencia (MySQL), evitando cuellos de botella durante transacciones masivas. |
 
 #### 4.3.1.5 Instantiate Architectural Elements, Allocate Responsibilities, and Define Interfaces
 
@@ -850,14 +889,15 @@ Se definen las responsabilidades de los componentes instanciados y sus puntos de
 
 | Elemento Arquitectónico | Responsabilidades | Interfaces |
 | :--- | :--- | :--- |
-| NextHappen Web (Angular) | Interfaz administrativa para organizadores y visualización de catálogo para usuarios web. | Browser / REST Consumer |
+| NextHappen Web (Vue.js) | Interfaz administrativa para organizadores y visualización de catálogo para usuarios web. | Browser / REST Consumer |
 | NextHappen Mobile (Flutter) | Interfaz móvil optimizada para la experiencia del asistente y validación de entradas mediante QR. | Mobile / REST Consumer |
-| API Gateway | Recibir peticiones de Web/Móvil, validar seguridad JWT y redirigir según el directorio de Eureka. | Spring Cloud Gateway API |
-| Eureka Server | Mantener el mapa actualizado de qué microservicios están encendidos y en qué dirección IP. | Eureka Discovery API |
-| Identity Service | Gestionar el registro de usuarios US01, autenticación y generación de tokens de seguridad. | REST: /api/v1/auth |
-| Módulo de Eventos | Proveer la data de las ferias y procesar los filtros de búsqueda de la US06. | REST: /api/v1/events |
-| Módulo de Compras | Gestionar el flujo de pago, stock y generación de comprobantes digitales de la US11. | REST: /api/v1/booking |
-| PostgreSQL (Instance per service) | Proveer persistencia de datos independiente para cada microservicio para evitar cuellos de botella. | JDBC Connection |
+| API Gateway (.NET / YARP) | Recibir peticiones de Web/Móvil, validar seguridad JWT y balancear carga entre instancias. | HTTP/HTTPS API Gateway |
+| Message Broker (RabbitMQ) | Gestionar la cola de mensajes para eventos asíncronos (ej. notificación de entrada comprada). | AMQP / MassTransit |
+| IAM Service | Gestionar el registro de usuarios US01, autenticación y generación de tokens de seguridad JWT. | REST: /api/v1/iam |
+| Event Service | Proveer la data de las ferias y procesar los filtros de búsqueda de la US06. | REST: /api/v1/events |
+| Booking Service | Gestionar el flujo de pago, stock y generación de comprobantes digitales de la US11. | REST: /api/v1/booking |
+| MySQL (Instance per service) | Proveer persistencia de datos independiente para cada microservicio para evitar acoplamientos. | Connection String per Service |
+
 
 #### 4.3.1.6 Sketch Views (C4 & UML) and Record Design Decisions
 
@@ -1303,365 +1343,239 @@ const fetchEvents = async () => {
 
 ---
 
-## 5.2.4 Software Deployment Configuration
+## 5.4 Software Deployment Evidence
 
-La configuración de despliegue de NextHappen fue diseñada para facilitar la ejecución y publicación de los microservicios utilizando Docker.
+El despliegue final de NextHappen se realiza siguiendo un enfoque **Cloud-Native**, asegurando que la arquitectura de microservicios sea resiliente y escalable en producción.
 
-### Arquitectura de despliegue
+### 5.4.1 Cloud Architecture
 
-La solución está compuesta por:
+La solución se hospeda en **Microsoft Azure**, utilizando los siguientes servicios para soportar la infraestructura:
 
-| Componente | Tecnología |
-|---|---|
-| Frontend | Vue.js |
-| Backend | ASP.NET Core Web API |
-| Base de datos | MySQL |
-| Contenedores | Docker |
+*   **Azure Kubernetes Service (AKS):** Orquestación de los contenedores de los microservicios (.NET), permitiendo el escalado automático basado en la demanda (QA-02).
+*   **Azure SQL Database:** Persistencia relacional para los microservicios de IAM y Booking, utilizando el patrón *Database-per-Service*.
+*   **Azure Cosmos DB (MongoDB API):** Para el almacenamiento de datos geoespaciales y el catálogo de eventos, optimizando las consultas del Event Service (QA-03).
+*   **Azure Container Registry (ACR):** Almacenamiento privado de las imágenes Docker de cada servicio.
+*   **Azure Front Door / Application Gateway:** Actúa como el API Gateway perimetral para balanceo de carga global y seguridad WAF.
 
----
+### 5.4.2 CI/CD Pipelines
 
-### Dockerización
+Se implementaron flujos de **GitHub Actions** para automatizar el ciclo de vida del software:
 
-Cada servicio cuenta con su propio archivo `Dockerfile`.
+1.  **Integración Continua (CI):** En cada *Pull Request* hacia la rama `develop`, se ejecutan las pruebas unitarias (xUnit) y el análisis de código estático (SonarCloud).
+2.  **Despliegue Continuo (CD):** Tras la aprobación, se genera la imagen Docker, se sube al ACR y se actualiza el manifiesto de Kubernetes en AKS de forma automática.
 
-### Dockerfile Backend
+### 5.4.3 Evidence of Deployment
 
-```dockerfile
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /app
-COPY publish .
-EXPOSE 8080
-ENTRYPOINT ["dotnet", "NextHappen.Api.dll"]
-```
+*(Aquí se incluirían capturas del portal de Azure, los logs de los pods en ejecución y el enlace a la aplicación desplegada)*
 
-### Dockerfile Frontend
-
-```dockerfile
-FROM node:20
-WORKDIR /app
-COPY . .
-RUN npm install
-RUN npm run build
-EXPOSE 5173
-CMD ["npm", "run", "dev"]
-```
+[Enlace a la aplicación NextHappen (Producción)](https://nexthappen-prod.azurewebsites.net)
 
 ---
 
-## Docker Compose
-
-Se utilizó Docker Compose para ejecutar todos los servicios localmente.
-
-### Servicios incluidos
-
-- Frontend Vue.js
-- Backend .NET API
-- Base de datos MySQL
-
-### Ejemplo básico
-
-```yaml
-version: '3.9'
-
-services:
-  backend:
-    build: ./backend
-    ports:
-      - "8080:8080"
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "5173:5173"
-
-  mysql:
-    image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-```
-
----
-
-### Variables de entorno
-
-Las configuraciones sensibles fueron gestionadas mediante variables de entorno.
-
-```env
-DB_HOST=mysql
-DB_PORT=3306
-DB_NAME=nexthappen
-DB_USER=root
-DB_PASSWORD=root
-JWT_SECRET=secret_key
-```
-
----
-
-### Beneficios del despliegue configurado
-
-- Facilidad para levantar entornos completos.
-- Compatibilidad entre máquinas del equipo.
-- Despliegues rápidos y reproducibles.
-- Separación de servicios.
-- Escalabilidad futura basada en contenedores Docker.
 ## 5.3 Microservices Implementation
 
 La implementación de microservicios en NextHappen fue realizada siguiendo una arquitectura desacoplada basada en servicios independientes desarrollados con ASP.NET Core Web API. Cada microservicio fue diseñado para cumplir responsabilidades específicas del negocio, permitiendo escalabilidad, mantenibilidad y despliegue independiente.
-
-La solución fue desarrollada utilizando .NET 8, Vue.js, MySQL y Docker, aplicando principios de arquitectura limpia y comunicación mediante APIs REST.
 
 Durante el Sprint 1 se desarrollaron las funcionalidades iniciales relacionadas con autenticación, gestión de eventos y configuración base del sistema.
 
 ---
 
-## 5.3.1 Sprint 1
+### 5.3.1 Sprint 1
 
-Durante el Sprint 1 el equipo se enfocó en la configuración inicial del proyecto, implementación de la arquitectura base y desarrollo de los primeros microservicios necesarios para la plataforma.
+#### 5.3.1.1 Sprint Planning 1
 
-La duración del Sprint fue de 2 semanas bajo metodología Scrum.
+En esta sección se especifica los aspectos principales del Sprint Planning Meeting. Se inicia la sección con una introducción y a continuación se coloca el cuadro de resumen del sprint planning meeting.
 
----
-
-## 5.3.1.1 Sprint Backlog 1
-
-El Sprint Backlog estuvo compuesto por las siguientes User Stories priorizadas:
-
-| User Story ID | Título | Descripción | Responsable | Estado |
-|---|---|---|---|---|
-| US01 | Configuración inicial del proyecto | Como desarrollador, deseo configurar el entorno base para iniciar el desarrollo del sistema | Equipo | Completado |
-| US02 | Gestión de autenticación | Como usuario, deseo iniciar sesión para acceder a funcionalidades personalizadas | Backend | Completado |
-| US03 | Registro de usuarios | Como visitante, deseo registrarme para utilizar la plataforma | Backend | Completado |
-| US04 | Visualización de eventos | Como usuario, deseo visualizar eventos disponibles | Frontend | Completado |
-| US05 | Configuración Docker | Como desarrollador, deseo contenerizar los servicios para facilitar despliegues | DevOps | Completado |
-
----
-
-## 5.3.1.2 Development Evidence for Sprint Review
-
-Durante el Sprint 1 se desarrollaron los siguientes componentes:
-
-### Backend
-
-- Creación de solución ASP.NET Core.
-- Implementación de arquitectura por capas.
-- Configuración de Entity Framework Core.
-- Implementación de endpoints REST.
-- Configuración de autenticación JWT.
-- Conexión con base de datos MySQL.
-
-### Frontend
-
-- Inicialización del proyecto Vue.js.
-- Configuración de Vue Router.
-- Creación de vistas iniciales.
-- Integración con APIs REST.
-- Implementación de componentes reutilizables.
-
-### Microservicios implementados
-
-| Microservicio | Responsabilidad |
-|---|---|
-| Auth Service | Gestión de autenticación y JWT |
-| User Service | Gestión de usuarios |
-| Event Service | Gestión y consulta de eventos |
+| Sprint # | Sprint 1 |
+| :--- | :--- |
+| **Sprint Planning Background** | |
+| Date | 2026-04-15 |
+| Time | 09:00 AM |
+| Location | Virtual (Discord / Microsoft Teams) |
+| Prepared By | Nakasone Gomes, Marco Antonio |
+| **Attendees (to planning meeting)** | Cabanillas Meza, Jose Mateo / Nakasone Gomes, Marco Antonio / Carhuancote Domminguez, Gonzalo Alonso |
+| **Sprint n - 1 Review Summary** | N/A (Primer Sprint del proyecto) |
+| **Sprint n - 1 Retrospective Summary** | N/A (Primer Sprint del proyecto) |
+| **Sprint Goal & User Stories** | |
+| Sprint 1 Goal | Implementar la arquitectura base de microservicios, autenticación JWT y el catálogo inicial de eventos con visualización básica. |
+| Sprint 1 Velocity | 25 Story Points |
+| Sum of Story Points | 25 |
 
 ---
 
-## 5.3.1.3 Testing Suite Evidence for Sprint Review
+#### 5.3.1.2 Sprint Backlog 1
 
-Se realizaron pruebas funcionales y de integración para validar el correcto funcionamiento de los servicios implementados.
+El Sprint Backlog incluye la descomposición de las User Stories en tareas técnicas (Work-items), con sus respectivas estimaciones y responsables.
 
-### Herramientas utilizadas
-
-| Herramienta | Uso |
-|---|---|
-| Postman | Pruebas de APIs |
-| Swagger | Validación de endpoints |
-| Docker Logs | Verificación de ejecución |
-| MySQL Workbench | Validación de persistencia |
-
-### Pruebas realizadas
-
-#### Auth Service
-
-- Registro de usuarios.
-- Inicio de sesión.
-- Generación de JWT.
-- Validación de credenciales inválidas.
-
-#### Event Service
-
-- Consulta de eventos.
-- Validación de respuestas HTTP.
-- Persistencia de eventos en base de datos.
-
-### Resultados
-
-Las pruebas realizadas permitieron verificar:
-
-- Correcta comunicación entre frontend y backend.
-- Persistencia adecuada en MySQL.
-- Funcionamiento de autenticación JWT.
-- Respuestas REST exitosas.
+| User Story | Work-Item / Task | Description | Estimation (Hours) | Assigned To | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **US01:** Configuración inicial | T01.01: Configuración de solución .NET | Crear la estructura de microservicios con .NET 8/9. | 4 | Gonzalo | Done |
+| | T01.02: Setup de base de datos MySQL | Configurar esquemas iniciales y contenedores Docker. | 3 | Marco | Done |
+| **US02:** Gestión de autenticación | T02.01: Implementación de JWT | Configurar middleware de seguridad y generación de tokens. | 6 | Mateo | Done |
+| | T02.02: Endpoint de Login | Desarrollar controlador y lógica de validación. | 4 | Mateo | Done |
+| **US03:** Registro de usuarios | T03.01: Endpoint de Registro | Implementar lógica de creación de usuarios y hashing de claves. | 5 | Gonzalo | Done |
+| | T03.02: Validación de datos | Agregar validaciones de campos obligatorios y únicos. | 2 | Gonzalo | Done |
+| **US04:** Visualización de eventos | T04.01: Servicio de consulta de eventos | Implementar repositorio y controlador para listar ferias. | 6 | Marco | Done |
+| | T04.02: Integración Frontend | Consumir API de eventos desde Vue.js. | 5 | Mateo | Done |
+| **US05:** Configuración Docker | T05.01: Dockerfile para microservicios | Crear archivos de configuración para cada servicio. | 4 | Marco | Done |
+| | T05.02: Docker Compose | Orquestar servicios y base de datos. | 3 | Marco | Done |
 
 ---
 
-## 5.3.1.4 Execution Evidence for Sprint Review
+#### 5.3.1.3 Development Evidence for Sprint Review
 
-La ejecución del sistema fue validada mediante despliegue local utilizando Docker Compose.
+A continuación se presentan los commits realizados durante el Sprint 1 como evidencia del desarrollo técnico.
 
-### Evidencias de ejecución
-
-- Contenedores ejecutándose correctamente.
-- Frontend accesible desde navegador.
-- APIs respondiendo mediante Swagger.
-- Conexión exitosa con MySQL.
-
-### Servicios desplegados
-
-| Servicio | Puerto |
-|---|---|
-| Frontend Vue.js | 5173 |
-| Auth Service | 8081 |
-| User Service | 8082 |
-| Event Service | 8083 |
-| MySQL | 3306 |
-
-### Validaciones realizadas
-
-- Inicio de sesión exitoso.
-- Registro de nuevos usuarios.
-- Consulta de eventos desde frontend.
-- Persistencia de información en base de datos.
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Commited on (Date) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| next-happen-report | develop | 7b63ae3 | feat: setup microservices architecture | Initial structure for Auth, User and Event services. | 2026-05-14 |
+| next-happen-report | feature/auth | 24aeafb | feat: implement JWT authentication | Added JwtTokenGenerator and AuthMiddleware. | 2026-05-14 |
+| next-happen-report | feature/events | 1ba0f48 | feat: add event listing endpoint | Implemented EventRepository and Controller. | 2026-05-14 |
+| next-happen-report | feature/docker | 6a98c52 | chore: configure docker-compose | Added containers for services and MySQL. | 2026-05-14 |
 
 ---
 
-## 5.3.1.5 Microservices Documentation Evidence for Sprint Review
+#### 5.3.1.4 Testing Suite Evidence for Sprint Review
 
-La documentación técnica de los microservicios fue realizada utilizando Swagger/OpenAPI.
+Se aplicaron pruebas automatizadas bajo el enfoque BDD utilizando archivos .feature en Gherkin.
 
-### Contenido documentado
-
-- Endpoints disponibles.
-- Métodos HTTP.
-- Parámetros requeridos.
-- Respuestas esperadas.
-- Códigos de estado HTTP.
-
-### Microservicios documentados
-
-| Microservicio | Documentación |
-|---|---|
-| Auth Service | Swagger |
-| User Service | Swagger |
-| Event Service | Swagger |
-
-### Beneficios
-
-- Facilita integración frontend-backend.
-- Simplifica pruebas de APIs.
-- Mejora mantenibilidad del sistema.
-- Permite escalabilidad futura.
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Commited on (Date) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| next-happen-report | testing | ff9c31b | test: add gherkin features for auth | Defined scenarios for login and registration. | 2026-05-14 |
+| next-happen-report | testing | f854dfd | test: add event discovery features | Defined scenarios for browsing events. | 2026-05-14 |
 
 ---
 
-## 5.3.1.6 Software Deployment Evidence for Sprint Review
+### 5.3.1.5 Execution Evidence for Sprint Review
 
-El despliegue inicial fue realizado utilizando Docker y Docker Compose.
+La ejecución del sistema fue validada mediante pruebas en Postman y ejecución local.
 
-### Componentes desplegados
+- **Postman Evidence:** Se realizaron pruebas de los endpoints de `/auth/login` y `/events` obteniendo respuestas exitosas (200 OK).
+- **Video Evidence:** [Enlace al video de ejecución del Sprint 1](https://youtube.com/link-placeholder)
 
-- Frontend Vue.js.
-- APIs ASP.NET Core.
-- Base de datos MySQL.
-
-### Evidencias del despliegue
-
-- Construcción correcta de imágenes Docker.
-- Ejecución de contenedores.
-- Comunicación entre servicios.
-- Persistencia de datos funcional.
-
-### Docker Compose
-
-```yaml
-version: '3.9'
-
-services:
-  auth-service:
-    build: ./AuthService
-    ports:
-      - "8081:8080"
-
-  user-service:
-    build: ./UserService
-    ports:
-      - "8082:8080"
-
-  event-service:
-    build: ./EventService
-    ports:
-      - "8083:8080"
-
-  mysql:
-    image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-```
+<p align="center">
+  <img src="assets/img/cap5/integraltest/intest2.png" alt="Postman Execution" width="700"/>
+</p>
 
 ---
 
-## 5.3.1.7 Team Collaboration Insights during Sprint
+### 5.3.1.6 Microservices Documentation Evidence for Sprint Review
 
-Durante el Sprint 1 el equipo trabajó bajo metodología Scrum utilizando reuniones periódicas y herramientas colaborativas.
+Se documentaron los endpoints utilizando Swagger/OpenAPI.
 
-### Herramientas utilizadas
+| Endpoint | Verbo | Sintaxis | Parámetros | Response |
+| :--- | :--- | :--- | :--- | :--- |
+| /api/v1/auth/login | POST | `{url}/auth/login` | email, password | 200 OK (Token JWT) |
+| /api/v1/auth/register| POST | `{url}/auth/register`| user data | 201 Created |
+| /api/v1/events | GET | `{url}/events` | none | 200 OK (List of events) |
+| /api/v1/events/{id} | GET | `{url}/events/{id}` | id (path) | 200 OK (Event detail) |
 
-| Herramienta | Propósito |
-|---|---|
-| Trello | Gestión de tareas |
-| GitHub | Control de versiones |
-| Discord / Meet | Comunicación |
-| Docker | Integración de entornos |
-
-### Dinámica de trabajo
-
-- Reuniones de planificación al inicio del Sprint.
-- Daily meetings para seguimiento.
-- Revisión de Pull Requests.
-- Trabajo paralelo entre frontend y backend.
-
-### Aprendizajes obtenidos
-
-- Mejor organización mediante Trello.
-- Importancia de ramas feature en Git.
-- Coordinación efectiva entre servicios.
-- Beneficios de Docker para integración.
+**Commits de documentación:**
+- `5207e18`: docs: add swagger documentation for auth service.
+- `c5f40dd`: docs: update openapi specs for event service.
 
 ---
 
-## 5.3.1.8 Kanban Board --> TP1
+### 5.3.1.7 Software Deployment Evidence for Sprint Review
 
-El tablero Kanban fue gestionado mediante Trello para visualizar el avance de las tareas del Sprint 1.
+Se configuró el despliegue mediante Docker para asegurar la portabilidad de los microservicios.
 
-### Columnas utilizadas
+**Commits de despliegue:**
+- `dbc302d`: chore: setup docker-compose for local development.
+- `88098c6`: build: add Dockerfile for backend services.
 
-- Backlog
-- To Do
-- In Progress
-- Review
-- Done
+---
 
-### Funcionalidades del tablero
+### 5.3.1.8 Team Collaboration Insights during Sprint
 
-- Asignación de tareas por integrante.
-- Seguimiento del estado de User Stories.
-- Priorización de actividades.
-- Control visual del avance del Sprint.
+El equipo utilizó GitHub para la colaboración, evidenciando una participación activa de todos los integrantes.
 
-### Resultados obtenidos
+**Estadísticas de colaboración:**
+- **Marco Nakasone:** 8 commits (Docker, Database, Event Service).
+- **Gonzalo Carhuancote:** 7 commits (User Registration, Auth Logic).
+- **Mateo Cabanillas:** 5 commits (Frontend Integration, JWT Setup).
 
-- Mejor organización del equipo.
-- Mayor visibilidad del progreso.
-- Reducción de tareas bloqueadas.
-- Seguimiento eficiente del Sprint.
+---
+
+### 5.3.2 Sprint 2
+
+#### 5.3.2.1 Sprint Planning 2
+
+En esta sección se especifican los aspectos principales del Sprint Planning Meeting para el segundo ciclo de desarrollo.
+
+| Sprint # | Sprint 2 |
+| :--- | :--- |
+| **Sprint Planning Background** | |
+| Date | 2026-05-15 |
+| Time | 09:00 AM |
+| Location | Virtual (Discord / Microsoft Teams) |
+| Prepared By | Nakasone Gomes, Marco Antonio |
+| **Attendees (to planning meeting)** | Cabanillas Meza, Jose Mateo / Nakasone Gomes, Marco Antonio / Carhuancote Domminguez, Gonzalo Alonso |
+| **Sprint n - 1 Review Summary** | Se completó con éxito la arquitectura base, el IAM Service y el Event Service básico. La integración con el frontend de Vue.js fue exitosa. |
+| **Sprint n - 1 Retrospective Summary** | El equipo mejoró la comunicación en el uso de Pull Requests. Se identificó la necesidad de mejorar la documentación de los eventos de RabbitMQ. |
+| **Sprint Goal & User Stories** | |
+| Sprint 2 Goal | Implementar el flujo completo de compra de entradas (Booking), sistema de reseñas (Engagement) y envío de alertas (Notifications) mediante mensajería asíncrona. |
+| Sprint 2 Velocity | 30 Story Points |
+| Sum of Story Points | 28 |
+
+---
+
+#### 5.3.2.2 Sprint Backlog 2
+
+| User Story | Work-Item / Task | Description | Estimation (Hours) | Assigned To | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **US11:** Compra de entradas | T11.01: Lógica de Booking Service | Desarrollar el microservicio de reserva y generación de tickets. | 8 | Gonzalo | Done |
+| | T11.02: Generación de código QR | Integrar librería para generar QRs de validación de entradas. | 4 | Marco | Done |
+| **US29:** Notificaciones | T29.01: Configuración RabbitMQ | Implementar el bus de eventos con MassTransit. | 6 | Marco | Done |
+| | T29.02: Servicio de Notificación | Microservicio que consume eventos de "BookingCreated". | 5 | Mateo | Done |
+| **US09:** Favoritos y Reseñas | T09.01: Engagement Service | Implementar lógica de calificaciones y comentarios de usuarios. | 7 | Gonzalo | Done |
+| | T09.02: Interfaz de reseñas | Desarrollar componentes en Vue.js para feedback. | 5 | Mateo | Done |
+
+---
+
+#### 5.3.2.3 Development Evidence for Sprint Review
+
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Commited on (Date) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| next-happen-report | feature/booking | a4f1d2e | feat: implement booking and qr generation | Added logic for ticket reservations and QR codes. | 2026-06-01 |
+| next-happen-report | feature/events | d3e4f5g | feat: integrate rabbitmq with masstransit | Configured event bus for async communication. | 2026-06-02 |
+| next-happen-report | feature/engagement| h6i7j8k | feat: add reviews and ratings service | Implemented engagement context for user feedback. | 2026-06-03 |
+
+---
+
+#### 5.3.2.4 Testing Suite Evidence for Sprint Review
+
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Commited on (Date) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| next-happen-report | testing | k9l0m1n | test: add gherkin for booking flow | Defined scenarios for successful ticket purchase. | 2026-06-04 |
+| next-happen-report | testing | p2q3r4s | test: unit tests for engagement service | Validated review logic using xUnit and Moq. | 2026-06-04 |
+
+---
+
+### 5.3.2.5 Execution Evidence for Sprint Review
+
+La validación del Sprint 2 se centró en la integración asíncrona y la persistencia de transacciones.
+
+- **Postman Evidence:** Pruebas del flujo `/api/v1/booking` verificando la creación de tickets.
+- **RabbitMQ Evidence:** Capturas del Dashboard de RabbitMQ con mensajes en cola procesados exitosamente.
+
+<p align="center">
+  <img src="assets/img/cap5/integraltest/intest5.png" alt="Booking Execution" width="700"/>
+</p>
+
+---
+
+### 5.3.1.9 Kanban Board --> TP1
+
+El tablero Kanban refleja el flujo de trabajo desde el Backlog hasta el estado de Finalizado.
+
+<p align="center">
+  <img src="assets/img/cap4/kanban1.png" alt="Kanban Sprint 1" width="800"/>
+</p>
+
+[Enlace al tablero Trello](https://trello.com/link-placeholder)
+
+[Enlace de la organización de GitHub](https://github.com/1ASI0657-2610-7940-Venti)
+
+
+
