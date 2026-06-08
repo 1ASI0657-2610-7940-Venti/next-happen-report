@@ -1477,12 +1477,25 @@ Figure 5.3.1.3.2 - Backend microservices project structure.
 
 #### 5.3.1.4 Testing Suite Evidence for Sprint Review
 
-Se aplicaron pruebas automatizadas bajo el enfoque BDD utilizando archivos .feature en Gherkin.
 
-| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Commited on (Date) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| next-happen-report | testing | ff9c31b | test: add gherkin features for auth | Defined scenarios for login and registration. | 2026-05-14 |
-| next-happen-report | testing | f854dfd | test: add event discovery features | Defined scenarios for browsing events. | 2026-05-14 |
+
+Durante el Sprint 1 se implementaron pruebas unitarias e integrales para validar el correcto funcionamiento de los componentes desarrollados. Las pruebas permitieron verificar los principales flujos de autenticación, gestión de usuarios y servicios asociados, asegurando el cumplimiento de los requerimientos funcionales definidos para el sprint.
+
+##### Testing Commits
+
+| Repository          | Branch | Commit ID | Commit Message               | Description                                                                                    | Committed On |
+| ------------------- | ------ | --------- | ---------------------------- | ---------------------------------------------------------------------------------------------- | ------------ |
+| next-happen-backend | test   | 482e481   | feat: unit and integral test | Implementación de pruebas unitarias e integrales para los componentes principales del backend. | 2026-05-14   |
+
+
+Figure 5.3.1.4.1 - GitHub commit associated with unit and integration tests.
+
+<img src="assets/img/cap5/sprint1/sprint1testcommits.png" width="600"/>
+
+Figure 5.3.1.4.2 - Test execution results.
+
+<img src="assets/img/cap5/integraltest/intest3.png" width="600"/>
+
 
 ---
 
