@@ -1649,7 +1649,7 @@ En esta sección se especifican los aspectos principales del Sprint Planning Mee
 | Location | Virtual (Google meet) |
 | Prepared By | Nakasone Gomes, Marco Antonio |
 | **Attendees (to planning meeting)** | Cabanillas Meza, Jose Mateo / Nakasone Gomes, Marco Antonio / Carhuancote Domminguez, Gonzalo Alonso |
-| **Sprint n - 2 Review Summary** | Se completó con éxito la arquitectura base, el IAM Service y el Event Service básico. La integración con el frontend de Vue.js fue exitosa. |
+| **Sprint n - 2 Review Summary** | Se completó con éxito la arquitectura base, integrando 3 nuevos microservicios principales. La integración con el frontend de Vue.js fue exitosa. |
 | **Sprint n - 2 Retrospective Summary** | El equipo mejoró la comunicación en el uso de Pull Requests. Se identificó la necesidad de mejorar la documentación de los eventos de RabbitMQ. |
 | **Sprint Goal & User Stories** | |
 | Sprint 2 Goal | Evolucionar la arquitectura de NextHappen hacia una solución cloud-native mediante la incorporación de comunicación asíncrona, API Gateway, despliegue basado en contenedores y funcionalidades avanzadas para la gestión de tickets, notificaciones y métricas de interacción. |
