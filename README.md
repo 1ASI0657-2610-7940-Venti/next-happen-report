@@ -1870,24 +1870,39 @@ Asimismo, se implementó la orquestación mediante Docker Compose y se integró 
 
 Figure 5.2.2.6.1 - Docker containers deployed on Ubuntu Server.
 
-*Insert screenshot showing the execution of the `docker ps` command with the microservices running.*
-
-Figure 5.2.2.6.2 - Deployed services accessible through the platform infrastructure.
-
-*Insert screenshot showing one of the deployed services accessible through Swagger or the API Gateway.*
+<img src="assets/img/cap5/sprint1/docker.png" width="600"/>
 
 
+#### 5.2.2.8 Team Collaboration Insights during Sprint
+
+Durante el Sprint 2, el equipo mantuvo una dinámica de trabajo colaborativa enfocada en la implementación de los componentes arquitectónicos más relevantes de la solución. La coordinación entre los integrantes permitió desarrollar de forma paralela los microservicios de Ticket Management, Notification Management y Engagement Management, así como las actividades relacionadas con mensajería asíncrona, despliegue y documentación.
+
+La utilización de GitHub facilitó la integración continua de los avances mediante commits, ramas de trabajo y Pull Requests, mientras que las reuniones periódicas permitieron realizar seguimiento al progreso de las tareas asignadas y resolver oportunamente los desafíos técnicos encontrados durante el desarrollo.
+
+##### Team Contribution Summary
+
+| Team Member                          | Main Contributions                                                                             |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| Gonzalo Alonso Carhuancote Domínguez | Implementación de Ticket Service, validación de tickets y flujo de compra de entradas.         |
+| Jose Mateo Cabanillas Meza           | Implementación de Notification Service, recordatorios automáticos e integración con RabbitMQ.  |
+| Marco Antonio Nakasone Gomes         | Implementación de Engagement Service, métricas de interacción y configuración del API Gateway. |
+
+##### Sprint Insights
+
+| Aspect            | Observation                                                                                                                                |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Communication     | Se mantuvo una comunicación constante mediante reuniones virtuales y herramientas colaborativas.                                           |
+| Task Distribution | Las responsabilidades fueron distribuidas según la especialización técnica de cada integrante.                                             |
+| Integration       | La integración entre microservicios se realizó de manera progresiva mediante GitHub y Docker Compose.                                      |
+| Challenges        | La configuración de RabbitMQ y la comunicación entre servicios representaron los principales retos técnicos del sprint.                    |
+| Lessons Learned   | La adopción de una arquitectura desacoplada facilitó la integración de nuevas funcionalidades y simplificó el despliegue de los servicios. |
 
 
-### 5.3.1.9 Kanban Board --> TP1
+### 5.3.2.9 Kanban Board 
 
 El tablero Kanban refleja el flujo de trabajo desde el Backlog hasta el estado de Finalizado.
 
-<p align="center">
-  <img src="assets/img/cap4/kanban1.png" alt="Kanban Sprint 1" width="800"/>
-</p>
-
-[Enlace al tablero Trello](https://trello.com/link-placeholder)
+<img src="assets/img/cap5/sprint2/jirasprint2.png" width="600"/>
 
 [Enlace de la organización de GitHub](https://github.com/1ASI0657-2610-7940-Venti)
 
