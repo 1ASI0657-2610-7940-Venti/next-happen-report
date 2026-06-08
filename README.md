@@ -1391,47 +1391,87 @@ En esta sección se especifica los aspectos principales del Sprint Planning Meet
 | **Sprint Planning Background** | |
 | Date | 2026-04-15 |
 | Time | 09:00 AM |
-| Location | Virtual (Discord / Microsoft Teams) |
+| Location | Virtual (Google meet) |
 | Prepared By | Nakasone Gomes, Marco Antonio |
 | **Attendees (to planning meeting)** | Cabanillas Meza, Jose Mateo / Nakasone Gomes, Marco Antonio / Carhuancote Domminguez, Gonzalo Alonso |
 | **Sprint n - 1 Review Summary** | N/A (Primer Sprint del proyecto) |
 | **Sprint n - 1 Retrospective Summary** | N/A (Primer Sprint del proyecto) |
 | **Sprint Goal & User Stories** | |
-| Sprint 1 Goal | Implementar la arquitectura base de microservicios, autenticación JWT y el catálogo inicial de eventos con visualización básica. |
-| Sprint 1 Velocity | 25 Story Points |
-| Sum of Story Points | 25 |
+| Sprint 1 Goal | Implementar la primera versión funcional de NextHappen mediante una arquitectura basada en microservicios, permitiendo el registro y autenticación de usuarios, la gestión básica de eventos y la documentación inicial de los servicios para su integración futura. |
+| Sprint 1 Velocity | 41 Story Points |
+| Sum of Story Points | 41 |
 
+Durante la Sprint Planning Meeting se revisó el Product Backlog priorizado y se seleccionaron las User Stories relacionadas con autenticación, registro de usuarios y gestión inicial de eventos. Asimismo, se acordó implementar la estructura base de la arquitectura de microservicios siguiendo principios de Domain-Driven Design (DDD), con el objetivo de disponer de una base escalable para futuros incrementos del producto.
 ---
 
 #### 5.3.1.2 Sprint Backlog 1
 
-El Sprint Backlog incluye la descomposición de las User Stories en tareas técnicas (Work-items), con sus respectivas estimaciones y responsables.
+El Sprint Backlog incluye la descomposición de las User Stories seleccionadas en tareas técnicas (Work-Items), con sus respectivas estimaciones, responsables y estado de avance.
 
-| User Story | Work-Item / Task | Description | Estimation (Hours) | Assigned To | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **US01:** Configuración inicial | T01.01: Configuración de solución .NET | Crear la estructura de microservicios con .NET 8/9. | 4 | Gonzalo | Done |
-| | T01.02: Setup de base de datos MySQL | Configurar esquemas iniciales y contenedores Docker. | 3 | Marco | Done |
-| **US02:** Gestión de autenticación | T02.01: Implementación de JWT | Configurar middleware de seguridad y generación de tokens. | 6 | Mateo | Done |
-| | T02.02: Endpoint de Login | Desarrollar controlador y lógica de validación. | 4 | Mateo | Done |
-| **US03:** Registro de usuarios | T03.01: Endpoint de Registro | Implementar lógica de creación de usuarios y hashing de claves. | 5 | Gonzalo | Done |
-| | T03.02: Validación de datos | Agregar validaciones de campos obligatorios y únicos. | 2 | Gonzalo | Done |
-| **US04:** Visualización de eventos | T04.01: Servicio de consulta de eventos | Implementar repositorio y controlador para listar ferias. | 6 | Marco | Done |
-| | T04.02: Integración Frontend | Consumir API de eventos desde Vue.js. | 5 | Mateo | Done |
-| **US05:** Configuración Docker | T05.01: Dockerfile para microservicios | Crear archivos de configuración para cada servicio. | 4 | Marco | Done |
-| | T05.02: Docker Compose | Orquestar servicios y base de datos. | 3 | Marco | Done |
+| User Story                 | Story Points | Work-Item / Task                  | Description                                                                    | Assigned To | Status |
+| -------------------------- | ------------ | --------------------------------- | ------------------------------------------------------------------------------ | ----------- | ------ |
+| US23: Registro             | 3            | T01.01 User Registration Endpoint | Implementar endpoint para registro de usuarios y persistencia de datos.        | Gonzalo     | Done   |
+| US23: Registro             | 2            | T01.02 Validation Rules           | Implementar validaciones de correo electrónico, unicidad y datos obligatorios. | Gonzalo     | Done   |
+| US24: Login                | 5            | T02.01 JWT Authentication         | Implementar generación y validación de tokens JWT.                             | Mateo       | Done   |
+| US24: Login                | 3            | T02.02 Login Endpoint             | Implementar autenticación y validación de credenciales.                        | Mateo       | Done   |
+| US06: Búsqueda por filtros | 8            | T03.01 Event Query Service        | Implementar consultas de eventos por categoría y fecha.                        | Marco       | Done   |
+| US08: Detalle del evento   | 2            | T03.02 Event Detail Endpoint      | Implementar consulta detallada de eventos.                                     | Marco       | Done   |
+| US07: Mapa interactivo     | 5            | T03.03 Event Location Support     | Implementar soporte geográfico para eventos.                                   | Marco       | Done   |
+| US18: Publicar evento      | 8            | T04.01 Event Creation Service     | Implementar creación y publicación de eventos.                                 | Gonzalo     | Done   |
+| US19: Editar evento        | 5            | T04.02 Event Update Service       | Implementar actualización de eventos existentes.                               | Mateo       | Done   |
+
+
+Como resultado de la Sprint Planning Meeting, se seleccionaron User Stories relacionadas con la autenticación y gestión de eventos, debido a que representan las funcionalidades esenciales para la operación inicial de la plataforma. Estas historias permitieron validar la arquitectura propuesta y establecer la base para los siguientes incrementos del producto.
+
+#### Entregables Arquitectónicos del Sprint
+
+| Entregable Técnico | Estado |
+|------------|------------|
+| IAM Microservice | Implementado |
+| Event Management Microservice | Implementado |
+| JWT Authentication | Implementado |
+| Swagger/OpenAPI Documentation | Implementado |
+| Arquitectura inicial basada en Microservices | Implementado |
+| Estructura DDD por Bounded Context | Implementado |
+| Repositorio Backend Inicial | Implementado |
 
 ---
 
 #### 5.3.1.3 Development Evidence for Sprint Review
 
-A continuación se presentan los commits realizados durante el Sprint 1 como evidencia del desarrollo técnico.
+Durante el Sprint 1 se desarrollaron las funcionalidades fundamentales de la plataforma NextHappen relacionadas con autenticación de usuarios y gestión de eventos. Asimismo, se implementó la estructura inicial de la arquitectura basada en microservicios siguiendo principios de Domain-Driven Design (DDD). El desarrollo fue gestionado mediante GitHub utilizando control de versiones y commits incrementales.
 
-| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Commited on (Date) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| next-happen-report | develop | 7b63ae3 | feat: setup microservices architecture | Initial structure for Auth, User and Event services. | 2026-05-14 |
-| next-happen-report | feature/auth | 24aeafb | feat: implement JWT authentication | Added JwtTokenGenerator and AuthMiddleware. | 2026-05-14 |
-| next-happen-report | feature/events | 1ba0f48 | feat: add event listing endpoint | Implemented EventRepository and Controller. | 2026-05-14 |
-| next-happen-report | feature/docker | 6a98c52 | chore: configure docker-compose | Added containers for services and MySQL. | 2026-05-14 |
+##### Development Commits
+
+| Repository          | Branch | Commit ID | Commit Message               | Description                                                              | Committed On |
+| ------------------- | ------ | --------- | ---------------------------- | ------------------------------------------------------------------------ | ------------ |
+| next-happen-backend | master | 12dba5e   | Initial Microservices Setup  | Configuración inicial de la arquitectura basada en microservicios.       | 2026-05-14   |
+| next-happen-backend | master | 2c157a1   | IAM Microservice             | Implementación del microservicio de autenticación y gestión de usuarios. | 2026-05-14   |
+| next-happen-backend | master | a985d7a   | Event Microservice           | Implementación del microservicio de gestión de eventos.                  | 2026-05-14   |
+| next-happen-backend | master | 12857b7   | JWT Authentication and Roles | Implementación de autenticación JWT y gestión de roles.                  | 2026-05-14   |
+| next-happen-backend | master | 1c6c95a   | Swagger Integration          | Integración de documentación OpenAPI/Swagger para los servicios REST.    | 2026-05-14   |
+
+##### Development Results
+
+| Component                | Result      |
+| ------------------------ | ----------- |
+| IAM Service              | Implemented |
+| Event Service            | Implemented |
+| JWT Authentication       | Implemented |
+| Role Management          | Implemented |
+| Swagger/OpenAPI          | Implemented |
+| Initial DDD Architecture | Implemented |
+| REST APIs                | Implemented |
+
+##### Development Evidence
+
+Figure 5.3.1.3.1 - GitHub commit history for Sprint 1.
+<img src="assets/img/cap5/unittest/unittest1.png" width="800"/>
+
+Figure 5.3.1.3.2 - Backend microservices project structure.
+<img src="assets/img/cap5/unittest/unittest1.png" width="800"/>
+
+
 
 ---
 
