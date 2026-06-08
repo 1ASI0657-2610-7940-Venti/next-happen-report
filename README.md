@@ -1653,38 +1653,70 @@ En esta sección se especifican los aspectos principales del Sprint Planning Mee
 | **Sprint Planning Background** | |
 | Date | 2026-05-15 |
 | Time | 09:00 AM |
-| Location | Virtual (Discord / Microsoft Teams) |
+| Location | Virtual (Google meet) |
 | Prepared By | Nakasone Gomes, Marco Antonio |
 | **Attendees (to planning meeting)** | Cabanillas Meza, Jose Mateo / Nakasone Gomes, Marco Antonio / Carhuancote Domminguez, Gonzalo Alonso |
-| **Sprint n - 1 Review Summary** | Se completó con éxito la arquitectura base, el IAM Service y el Event Service básico. La integración con el frontend de Vue.js fue exitosa. |
-| **Sprint n - 1 Retrospective Summary** | El equipo mejoró la comunicación en el uso de Pull Requests. Se identificó la necesidad de mejorar la documentación de los eventos de RabbitMQ. |
+| **Sprint n - 2 Review Summary** | Se completó con éxito la arquitectura base, el IAM Service y el Event Service básico. La integración con el frontend de Vue.js fue exitosa. |
+| **Sprint n - 2 Retrospective Summary** | El equipo mejoró la comunicación en el uso de Pull Requests. Se identificó la necesidad de mejorar la documentación de los eventos de RabbitMQ. |
 | **Sprint Goal & User Stories** | |
-| Sprint 2 Goal | Implementar el flujo completo de compra de entradas (Booking), sistema de reseñas (Engagement) y envío de alertas (Notifications) mediante mensajería asíncrona. |
-| Sprint 2 Velocity | 30 Story Points |
-| Sum of Story Points | 28 |
+| Sprint 2 Goal | Evolucionar la arquitectura de NextHappen hacia una solución cloud-native mediante la incorporación de comunicación asíncrona, API Gateway, despliegue basado en contenedores y funcionalidades avanzadas para la gestión de tickets, notificaciones y métricas de interacción. |
+| Sprint 2 Velocity | 42 Story Points |
+| Sum of Story Points | 42 |
 
 ---
 
 #### 5.3.2.2 Sprint Backlog 2
 
-| User Story | Work-Item / Task | Description | Estimation (Hours) | Assigned To | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **US11:** Compra de entradas | T11.01: Lógica de Booking Service | Desarrollar el microservicio de reserva y generación de tickets. | 8 | Gonzalo | Done |
-| | T11.02: Generación de código QR | Integrar librería para generar QRs de validación de entradas. | 4 | Marco | Done |
-| **US29:** Notificaciones | T29.01: Configuración RabbitMQ | Implementar el bus de eventos con MassTransit. | 6 | Marco | Done |
-| | T29.02: Servicio de Notificación | Microservicio que consume eventos de "BookingCreated". | 5 | Mateo | Done |
-| **US09:** Favoritos y Reseñas | T09.01: Engagement Service | Implementar lógica de calificaciones y comentarios de usuarios. | 7 | Gonzalo | Done |
-| | T09.02: Interfaz de reseñas | Desarrollar componentes en Vue.js para feedback. | 5 | Mateo | Done |
+| User Story             | Story Points | Work-Item / Task               | Description                                | Assigned To | Status |
+| ---------------------- | ------------ | ------------------------------ | ------------------------------------------ | ----------- | ------ |
+| US20 Mis eventos       | 3            | T05.01 Organizer Dashboard     | Visualización de eventos propios.          | Gonzalo     | Done   |
+| US29 Notificaciones    | 5            | T05.02 Notification Service    | Envío de alertas automáticas.              | Mateo       | Done   |
+| US30 Recordatorios     | 3            | T05.03 Scheduled Notifications | Recordatorios previos al evento.           | Mateo       | Done   |
+| US31 Métricas ventas   | 5            | T06.01 Sales Metrics           | Cálculo de ventas por evento.              | Marco       | Done   |
+| US32 Métricas alcance  | 5            | T06.02 Reach Metrics           | Seguimiento de visitas e interacción.      | Marco       | Done   |
+| US13 Validación ticket | 5            | T07.01 Ticket Validation       | Validación de entradas.                    | Gonzalo     | Done   |
+| US11 Compra entradas   | 8            | T07.02 Ticket Purchase Flow    | Flujo de compra de tickets.                | Gonzalo     | Done   |
+| US29 Notificaciones    | 5            | T08.01 RabbitMQ Integration    | Comunicación asíncrona entre servicios.    | Mateo       | Done   |
+| US20 Mis eventos       | 3            | T08.02 API Gateway             | Centralización de acceso a microservicios. | Marco       | Done   |
+
 
 ---
 
 #### 5.3.2.3 Development Evidence for Sprint Review
 
-| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Commited on (Date) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| next-happen-report | feature/booking | a4f1d2e | feat: implement booking and qr generation | Added logic for ticket reservations and QR codes. | 2026-06-01 |
-| next-happen-report | feature/events | d3e4f5g | feat: integrate rabbitmq with masstransit | Configured event bus for async communication. | 2026-06-02 |
-| next-happen-report | feature/engagement| h6i7j8k | feat: add reviews and ratings service | Implemented engagement context for user feedback. | 2026-06-03 |
+During Sprint 2, the development effort focused on evolving the platform architecture towards a cloud-native solution. New microservices were incorporated, asynchronous communication mechanisms were implemented, and deployment orchestration was enhanced through containerization technologies. Additionally, event ticketing, notifications, engagement metrics and API Gateway integration were completed.
+
+##### Development Commits
+
+| Repository          | Branch | Commit ID | Commit Message                      | Description                                                              | Committed On |
+| ------------------- | ------ | --------- | ----------------------------------- | ------------------------------------------------------------------------ | ------------ |
+| next-happen-backend | master | a078ef1   | Ticket Service                      | Implementation of the ticket management microservice.                    | 2026-05-14   |
+| next-happen-backend | master | 68a517f   | Engagement Service                  | Implementation of metrics and user interaction services.                 | 2026-05-14   |
+| next-happen-backend | master | 56f39c9   | Notification Service                | Implementation of notification and alert services.                       | 2026-05-14   |
+| next-happen-backend | master | e86a6c7   | API Gateway                         | Implementation of YARP API Gateway as a single entry point.              | 2026-05-14   |
+| next-happen-backend | master | 86ce295   | RabbitMQ Integration                | Implementation of asynchronous messaging using RabbitMQ and MassTransit. | 2026-05-14   |
+| next-happen-backend | master | c9772f6   | Database per Service                | Implementation of isolated databases for each microservice.              | 2026-05-14   |
+| next-happen-backend | master | a2a414f   | Docker Compose Orchestration        | Container orchestration for all platform services.                       | 2026-05-14   |
+| next-happen-backend | master | b2b4351   | Production Deployment Configuration | Production deployment preparation and infrastructure configuration.      | 2026-05-14   |
+
+##### Development Results
+
+| Component                           | Result      |
+| ----------------------------------- | ----------- |
+| Ticket Service                      | Implemented |
+| Notification Service                | Implemented |
+| Engagement Service                  | Implemented |
+| API Gateway                         | Implemented |
+| RabbitMQ Messaging                  | Implemented |
+| Database per Service                | Implemented |
+| Docker Compose Orchestration        | Implemented |
+| Production Deployment Configuration | Implemented |
+
+##### Development Evidence
+
+Figure 5.2.2.2.1 - GitHub commit history associated with Sprint 2 developments.
+
+<img src="assets/img/cap5/sprint2/sprint2commits.png" width="600"/>
 
 ---
 
