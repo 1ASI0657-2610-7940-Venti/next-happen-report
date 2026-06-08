@@ -1499,9 +1499,30 @@ Figure 5.3.1.4.2 - Test execution results.
 
 ---
 
-### 5.3.1.5 Execution Evidence for Sprint Review
+#### 5.3.1.5 Execution Evidence for Sprint Review
 
-La ejecución del sistema fue validada mediante pruebas en Postman y ejecución local.
+Durante el Sprint 1 se ejecutaron pruebas funcionales sobre los servicios implementados con el fin de validar el correcto comportamiento de los endpoints desarrollados. Las pruebas fueron realizadas utilizando Swagger y Postman, verificando los flujos principales de autenticación y gestión de eventos.
+
+##### Executed Functionalities
+
+| Functionality     | Endpoint                  | Result  |
+| ----------------- | ------------------------- | ------- |
+| User Registration | POST /api/v1/auth/sign-up | Success |
+| User Login        | POST /api/v1/auth/sign-in | Success |
+| Event Retrieval   | GET /api/v1/events        | Success |
+| Event Detail      | GET /api/v1/events/{id}   | Success |
+| Event Creation    | POST /api/v1/events       | Success |
+
+##### Execution Results
+
+| Validation                               | Status |
+| ---------------------------------------- | ------ |
+| User registration completed successfully | Passed |
+| JWT token generation                     | Passed |
+| User authentication                      | Passed |
+| Event listing retrieval                  | Passed |
+| Event creation process                   | Passed |
+
 
 - **Postman Evidence:** Se realizaron pruebas de los endpoints de `/auth/login` y `/events` obteniendo respuestas exitosas (200 OK).
 - **Video Evidence:** [Enlace al video de ejecución del Sprint 1](https://youtube.com/link-placeholder)
@@ -1512,22 +1533,41 @@ La ejecución del sistema fue validada mediante pruebas en Postman y ejecución 
 
 ---
 
-### 5.3.1.6 Microservices Documentation Evidence for Sprint Review
+#### 5.3.1.6 Microservices Documentation Evidence for Sprint Review
 
-Se documentaron los endpoints utilizando Swagger/OpenAPI.
 
-| Endpoint | Verbo | Sintaxis | Parámetros | Response |
-| :--- | :--- | :--- | :--- | :--- |
-| /api/v1/auth/login | POST | `{url}/auth/login` | email, password | 200 OK (Token JWT) |
-| /api/v1/auth/register| POST | `{url}/auth/register`| user data | 201 Created |
-| /api/v1/events | GET | `{url}/events` | none | 200 OK (List of events) |
-| /api/v1/events/{id} | GET | `{url}/events/{id}` | id (path) | 200 OK (Event detail) |
+Durante el Sprint 1 se documentaron los microservicios implementados utilizando OpenAPI/Swagger, permitiendo visualizar y validar los contratos REST de cada bounded context desarrollado. Esta documentación facilita la integración entre servicios y proporciona una referencia para futuras iteraciones del proyecto.
 
-**Commits de documentación:**
-- `5207e18`: docs: add swagger documentation for auth service.
-- `c5f40dd`: docs: update openapi specs for event service.
+##### Documented Microservices
 
----
+| Microservice         | Documentation Technology | Status    |
+| -------------------- | ------------------------ | --------- |
+| IAM Service          | Swagger / OpenAPI        | Available |
+| Event Service        | Swagger / OpenAPI        | Available |
+| Ticket Service       | Swagger / OpenAPI        | Available |
+| Engagement Service   | Swagger / OpenAPI        | Available |
+| Notification Service | Swagger / OpenAPI        | Available |
+
+##### Swagger Endpoints
+
+| Microservice | Swagger URL                                   |
+| ------------ | --------------------------------------------- |
+| Service 1    | http://159.112.143.58:5001/swagger/index.html |
+| Service 2    | http://159.112.143.58:5002/swagger/index.html |
+| Service 3    | http://159.112.143.58:5003/swagger/index.html |
+| Service 4    | http://159.112.143.58:5004/swagger/index.html |
+| Service 5    | http://159.112.143.58:5005/swagger/index.html |
+
+#### Documentation Evidence
+
+Figure 5.2.1.5.1 - Swagger documentation for IAM Service.
+
+<img src="assets/img/cap5/sprint1/swagger1.png" width="600"/>
+
+Figure 5.2.1.5.2 - Swagger documentation for Event Service.
+
+<img src="assets/img/cap5/sprint1/swagger2.png" width="600"/>
+
 
 ### 5.3.1.7 Software Deployment Evidence for Sprint Review
 
