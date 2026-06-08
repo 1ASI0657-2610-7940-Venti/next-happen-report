@@ -147,6 +147,17 @@ En el siguiente cuadro se describe las acciones realizadas y enunciados de concl
       - [5.3.1.7 Team Collaboration Insights during Sprint](#5317-team-collaboration-insights-during-sprint)
       - [5.3.1.8 Kanban Board](#5318-kanban-board)
 
+    - [5.3.2 Sprint 2](#532-sprint-2)
+      - [5.3.2.1 Sprint Planning 2](#5321-sprint-planning-2)
+      - [5.3.2.2 Sprint Backlog 2](#5322-sprint-backlog-2)
+      - [5.3.2.3 Development Evidence for Sprint Review](#5323-development-evidence-for-sprint-review)
+      - [5.3.2.4 Testing Suite Evidence for Sprint Review](#5324-testing-suite-evidence-for-sprint-review)
+      - [5.3.2.5 Execution Evidence for Sprint Review](#5325-execution-evidence-for-sprint-review)
+      - [5.3.2.6 Microservices Documentation Evidence for Sprint Review](#5326-microservices-documentation-evidence-for-sprint-review)
+      - [5.3.2.7 Software Deployment Evidence for Sprint Review](#5327-software-deployment-evidence-for-sprint-review)
+      - [5.3.2.8 Team Collaboration Insights during Sprint](#5328-team-collaboration-insights-during-sprint)
+      - [5.3.2.9 Kanban Board](#5329-kanban-board)
+
 # Capítulo I: Introducción
 ## 1.1 Startup Profile
 
@@ -1707,9 +1718,9 @@ Asimismo, se completaron funcionalidades relacionadas con la gestión de tickets
 | Docker Compose Orchestration        | Implemented |
 | Production Deployment Configuration | Implemented |
 
-##### Development Evidence
+  ##### Development Evidence
 
-Figure 5.2.2.2.1 - GitHub commit history associated with Sprint 2 developments.
+Figure 5.3.2.3.1 - GitHub commit history associated with Sprint 2 developments.
 
 <img src="assets/img/cap5/sprint2/sprint2commits.png" width="600"/>
 
@@ -1743,11 +1754,11 @@ Las pruebas unitarias e integrales permitieron validar tanto la lógica interna 
 
 #### Testing Evidence
 
-Figure 5.2.2.3.1 - GitHub commit associated with unit and integration testing activities.
+Figure 5.3.2.4.1 - GitHub commit associated with unit and integration testing activities.
 
 <img src="assets/img/cap5/sprint1/sprint1testcommits.png" width="600"/>
 
-Figure 5.2.2.3.2 - Test implementation and execution evidence.
+Figure 5.3.2.4.2 - Test implementation and execution evidence.
 
 <img src="assets/img/cap5/unittest/unittest4.png" width="600"/>
 
@@ -1787,11 +1798,11 @@ Las pruebas de ejecución permitieron comprobar que los servicios desplegados re
 
 #### Execution Evidence
 
-Figure 5.2.2.4.1 - Successful execution of Ticket Service endpoints.
+Figure 5.3.2.5.1 - Successful execution of Ticket Service endpoints.
 
 <img src="assets/img/cap5/sprint2/swagger3.png" width="600"/>
 
-Figure 5.2.2.4.2 - Successful execution of Notification Service.
+Figure 5.3.2.5.2 - Successful execution of Notification Service.
 
 <img src="assets/img/cap5/sprint2/swagger4.png" width="600"/>
 
@@ -1799,7 +1810,7 @@ Figure 5.2.2.4.2 - Successful execution of Notification Service.
 ---
 
 
-#### 5.2.2.6 Microservices Documentation Evidence for Sprint Review
+#### 5.3.2.6 Microservices Documentation Evidence for Sprint Review
 
 Durante el Sprint 2 se amplió la documentación de la plataforma incorporando los nuevos microservicios desarrollados durante esta iteración. La documentación fue generada utilizando OpenAPI/Swagger, permitiendo visualizar y validar los contratos REST de los servicios implementados.
 
@@ -1833,12 +1844,12 @@ Los microservicios documentados durante este sprint corresponden a la gestión d
 
 ##### Documentation Evidence
 
-Figure 5.2.2.5.1 - Swagger documentation for Engagement Service.
+Figure 5.3.2.6.1 - Swagger documentation for Engagement Service.
 
 <img src="assets/img/cap5/sprint2/swagger5.png" width="600"/>
 
 
-#### 5.2.2.7 Software Deployment Evidence for Sprint Review
+#### 5.3.2.7 Software Deployment Evidence for Sprint Review
 
 Durante el Sprint 2 se completó el despliegue de los nuevos microservicios incorporados a la plataforma utilizando contenedores Docker. La arquitectura fue desplegada sobre un servidor Linux Ubuntu, permitiendo ejecutar de forma independiente cada bounded context y garantizando una mejor separación de responsabilidades dentro del sistema.
 
@@ -1868,12 +1879,12 @@ Asimismo, se implementó la orquestación mediante Docker Compose y se integró 
 
 ##### Deployment Evidence
 
-Figure 5.2.2.6.1 - Docker containers deployed on Ubuntu Server.
+Figure 5.3.2.7.1 - Docker containers deployed on Ubuntu Server.
 
 <img src="assets/img/cap5/sprint1/docker.png" width="600"/>
 
 
-#### 5.2.2.8 Team Collaboration Insights during Sprint
+#### 5.3.2.8 Team Collaboration Insights during Sprint
 
 Durante el Sprint 2, el equipo mantuvo una dinámica de trabajo colaborativa enfocada en la implementación de los componentes arquitectónicos más relevantes de la solución. La coordinación entre los integrantes permitió desarrollar de forma paralela los microservicios de Ticket Management, Notification Management y Engagement Management, así como las actividades relacionadas con mensajería asíncrona, despliegue y documentación.
 
@@ -1898,7 +1909,7 @@ La utilización de GitHub facilitó la integración continua de los avances medi
 | Lessons Learned   | La adopción de una arquitectura desacoplada facilitó la integración de nuevas funcionalidades y simplificó el despliegue de los servicios. |
 
 
-### 5.3.2.9 Kanban Board 
+#### 5.3.2.9 Kanban Board 
 
 El tablero Kanban refleja el flujo de trabajo desde el Backlog hasta el estado de Finalizado.
 
