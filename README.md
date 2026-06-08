@@ -1545,9 +1545,6 @@ Durante el Sprint 1 se documentaron los microservicios implementados utilizando 
 | -------------------- | ------------------------ | --------- |
 | IAM Service          | Swagger / OpenAPI        | Available |
 | Event Service        | Swagger / OpenAPI        | Available |
-| Ticket Service       | Swagger / OpenAPI        | Available |
-| Engagement Service   | Swagger / OpenAPI        | Available |
-| Notification Service | Swagger / OpenAPI        | Available |
 
 ##### Swagger Endpoints
 
@@ -1555,9 +1552,7 @@ Durante el Sprint 1 se documentaron los microservicios implementados utilizando 
 | ------------ | --------------------------------------------- |
 | Service 1    | http://159.112.143.58:5001/swagger/index.html |
 | Service 2    | http://159.112.143.58:5002/swagger/index.html |
-| Service 3    | http://159.112.143.58:5003/swagger/index.html |
-| Service 4    | http://159.112.143.58:5004/swagger/index.html |
-| Service 5    | http://159.112.143.58:5005/swagger/index.html |
+
 
 #### Documentation Evidence
 
@@ -1584,9 +1579,7 @@ La solución fue desplegada sobre un servidor Linux Ubuntu, donde cada bounded c
 | API Gateway          | Docker Container      | Running |
 | IAM Service          | Docker Container      | Running |
 | Event Service        | Docker Container      | Running |
-| Ticket Service       | Docker Container      | Running |
-| Engagement Service   | Docker Container      | Running |
-| Notification Service | Docker Container      | Running |
+
 
 ##### Deployment Results
 
@@ -1684,7 +1677,9 @@ En esta sección se especifican los aspectos principales del Sprint Planning Mee
 
 #### 5.3.2.3 Development Evidence for Sprint Review
 
-During Sprint 2, the development effort focused on evolving the platform architecture towards a cloud-native solution. New microservices were incorporated, asynchronous communication mechanisms were implemented, and deployment orchestration was enhanced through containerization technologies. Additionally, event ticketing, notifications, engagement metrics and API Gateway integration were completed.
+Durante el Sprint 2, el esfuerzo de desarrollo estuvo enfocado en evolucionar la arquitectura de la plataforma hacia una solución cloud-native. Se incorporaron nuevos microservicios, se implementaron mecanismos de comunicación asíncrona y se fortaleció la orquestación del despliegue mediante tecnologías de contenedorización.
+
+Asimismo, se completaron funcionalidades relacionadas con la gestión de tickets, envío de notificaciones, métricas de interacción y centralización del acceso a los servicios mediante un API Gateway. Estas mejoras permitieron aumentar el desacoplamiento entre componentes y facilitar la escalabilidad de la solución.
 
 ##### Development Commits
 
@@ -1722,25 +1717,167 @@ Figure 5.2.2.2.1 - GitHub commit history associated with Sprint 2 developments.
 
 #### 5.3.2.4 Testing Suite Evidence for Sprint Review
 
-| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Commited on (Date) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| next-happen-report | testing | k9l0m1n | test: add gherkin for booking flow | Defined scenarios for successful ticket purchase. | 2026-06-04 |
-| next-happen-report | testing | p2q3r4s | test: unit tests for engagement service | Validated review logic using xUnit and Moq. | 2026-06-04 |
+
+Durante el Sprint 2 se realizaron actividades de validación sobre los nuevos componentes incorporados a la arquitectura de NextHappen. Las pruebas estuvieron orientadas a verificar el correcto funcionamiento de los microservicios de Ticket Management, Notification Management y Engagement Management, así como la integración entre servicios mediante mecanismos de comunicación asíncrona.
+
+Asimismo, se ejecutaron pruebas sobre los flujos de compra y validación de tickets, envío de notificaciones y exposición de servicios a través del API Gateway, garantizando la correcta interacción entre los distintos bounded contexts implementados durante esta iteración.
+
+Las pruebas unitarias e integrales permitieron validar tanto la lógica interna de los servicios como la comunicación entre componentes distribuidos, contribuyendo a asegurar la estabilidad de la arquitectura basada en microservicios.
+
+##### Testing Commits
+
+| Repository          | Branch | Commit ID | Commit Message               | Description                                                                                          | Committed On |
+| ------------------- | ------ | --------- | ---------------------------- | ---------------------------------------------------------------------------------------------------- | ------------ |
+| next-happen-backend | test   | 482e481   | feat: unit and integral test | Implementación y ejecución de pruebas unitarias e integrales sobre los microservicios desarrollados. | 2026-05-14   |
+
+##### Testing Results
+
+| Test Type         | Scope                       | Result |
+| ----------------- | --------------------------- | ------ |
+| Unit Tests        | Ticket Service              | Passed |
+| Unit Tests        | Notification Service        | Passed |
+| Unit Tests        | Engagement Service          | Passed |
+| Integration Tests | API Gateway Routing         | Passed |
+| Integration Tests | RabbitMQ Messaging          | Passed |
+| Integration Tests | Inter-Service Communication | Passed |
+
+#### Testing Evidence
+
+Figure 5.2.2.3.1 - GitHub commit associated with unit and integration testing activities.
+
+<img src="assets/img/cap5/sprint1/sprint1testcommits.png" width="600"/>
+
+Figure 5.2.2.3.2 - Test implementation and execution evidence.
+
+<img src="assets/img/cap5/unittest/unittest4.png" width="600"/>
+
+Los casos de prueba desarrollados durante el Sprint 1 continuaron utilizándose durante el Sprint 2 como parte de una estrategia de integración continua, permitiendo validar la incorporación progresiva de nuevas funcionalidades sin afectar los componentes previamente implementados.
+
 
 ---
 
-### 5.3.2.5 Execution Evidence for Sprint Review
+#### 5.3.2.5 Execution Evidence for Sprint Review
 
-La validación del Sprint 2 se centró en la integración asíncrona y la persistencia de transacciones.
 
-- **Postman Evidence:** Pruebas del flujo `/api/v1/booking` verificando la creación de tickets.
-- **RabbitMQ Evidence:** Capturas del Dashboard de RabbitMQ con mensajes en cola procesados exitosamente.
+Durante el Sprint 2 se ejecutaron pruebas funcionales sobre los nuevos microservicios incorporados a la plataforma, verificando el correcto funcionamiento de los procesos de gestión de tickets, notificaciones y métricas de interacción. Asimismo, se validó la integración de los servicios mediante el API Gateway y los mecanismos de comunicación implementados.
 
-<p align="center">
-  <img src="assets/img/cap5/integraltest/intest5.png" alt="Booking Execution" width="700"/>
-</p>
+Las pruebas de ejecución permitieron comprobar que los servicios desplegados respondían correctamente a las solicitudes realizadas desde los clientes, garantizando la disponibilidad de los endpoints y la correcta interacción entre los distintos bounded contexts del sistema.
+
+##### Executed Functionalities
+
+| Functionality               | Endpoint / Service   | Result  |
+| --------------------------- | -------------------- | ------- |
+| Ticket Purchase             | Ticket Service       | Success |
+| Ticket Validation           | Ticket Service       | Success |
+| Notification Delivery       | Notification Service | Success |
+| Event Metrics Retrieval     | Engagement Service   | Success |
+| API Gateway Routing         | Gateway Service      | Success |
+| Inter-Service Communication | RabbitMQ             | Success |
+
+##### Execution Results
+
+| Validation                                  | Status |
+| ------------------------------------------- | ------ |
+| Ticket purchase flow completed successfully | Passed |
+| Ticket validation process                   | Passed |
+| Notification delivery process               | Passed |
+| API Gateway routing                         | Passed |
+| Metrics retrieval                           | Passed |
+| Communication between services              | Passed |
+
+#### Execution Evidence
+
+Figure 5.2.2.4.1 - Successful execution of Ticket Service endpoints.
+
+<img src="assets/img/cap5/sprint2/swagger3.png" width="600"/>
+
+Figure 5.2.2.4.2 - Successful execution of Notification Service.
+
+<img src="assets/img/cap5/sprint2/swagger4.png" width="600"/>
+
 
 ---
+
+
+#### 5.2.2.6 Microservices Documentation Evidence for Sprint Review
+
+Durante el Sprint 2 se amplió la documentación de la plataforma incorporando los nuevos microservicios desarrollados durante esta iteración. La documentación fue generada utilizando OpenAPI/Swagger, permitiendo visualizar y validar los contratos REST de los servicios implementados.
+
+Los microservicios documentados durante este sprint corresponden a la gestión de tickets, notificaciones e interacción de usuarios, los cuales complementan los servicios desarrollados en la iteración anterior.
+
+##### Documented Microservices
+
+| Microservice         | Documentation Technology | Status    |
+| -------------------- | ------------------------ | --------- |
+| Ticket Service       | Swagger / OpenAPI        | Available |
+| Engagement Service   | Swagger / OpenAPI        | Available |
+| Notification Service | Swagger / OpenAPI        | Available |
+
+##### Swagger Endpoints
+
+| Microservice         | Documentation URL                             |
+| -------------------- | --------------------------------------------- |
+| Ticket Service       | http://159.112.143.58:5003/swagger/index.html |
+| Engagement Service   | http://159.112.143.58:5004/swagger/index.html |
+| Notification Service | http://159.112.143.58:5005/swagger/index.html |
+
+##### Documentation Results
+
+| Validation                              | Result |
+| --------------------------------------- | ------ |
+| REST APIs documented                    | Passed |
+| OpenAPI specification generated         | Passed |
+| Endpoint visualization available        | Passed |
+| Request and response schemas documented | Passed |
+| Microservices independently documented  | Passed |
+
+##### Documentation Evidence
+
+Figure 5.2.2.5.1 - Swagger documentation for Engagement Service.
+
+<img src="assets/img/cap5/sprint2/swagger5.png" width="600"/>
+
+
+#### 5.2.2.7 Software Deployment Evidence for Sprint Review
+
+Durante el Sprint 2 se completó el despliegue de los nuevos microservicios incorporados a la plataforma utilizando contenedores Docker. La arquitectura fue desplegada sobre un servidor Linux Ubuntu, permitiendo ejecutar de forma independiente cada bounded context y garantizando una mejor separación de responsabilidades dentro del sistema.
+
+Asimismo, se implementó la orquestación mediante Docker Compose y se integró un API Gateway como punto único de acceso a los servicios expuestos por la plataforma. Esta estrategia permitió simplificar la administración de la infraestructura y facilitar futuras actividades de escalamiento y mantenimiento.
+
+##### Deployment Components
+
+| Component                         | Deployment Technology | Status  |
+| --------------------------------- | --------------------- | ------- |
+| API Gateway                       | Docker Container      | Running |
+| Ticket Service                    | Docker Container      | Running |
+| Engagement Service                | Docker Container      | Running |
+| Notification Service              | Docker Container      | Running |
+| RabbitMQ Messaging Infrastructure | Docker Container      | Running |
+| Docker Compose Orchestration      | Docker Compose        | Running |
+
+##### Deployment Results
+
+| Validation                                | Result |
+| ----------------------------------------- | ------ |
+| Containers successfully deployed          | Passed |
+| Services accessible through exposed ports | Passed |
+| API Gateway operational                   | Passed |
+| RabbitMQ operational                      | Passed |
+| Inter-service communication verified      | Passed |
+| Microservices execution verified          | Passed |
+
+##### Deployment Evidence
+
+Figure 5.2.2.6.1 - Docker containers deployed on Ubuntu Server.
+
+*Insert screenshot showing the execution of the `docker ps` command with the microservices running.*
+
+Figure 5.2.2.6.2 - Deployed services accessible through the platform infrastructure.
+
+*Insert screenshot showing one of the deployed services accessible through Swagger or the API Gateway.*
+
+
+
 
 ### 5.3.1.9 Kanban Board --> TP1
 
