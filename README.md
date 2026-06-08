@@ -1402,6 +1402,7 @@ En esta sección se especifica los aspectos principales del Sprint Planning Meet
 | Sum of Story Points | 41 |
 
 Durante la Sprint Planning Meeting se revisó el Product Backlog priorizado y se seleccionaron las User Stories relacionadas con autenticación, registro de usuarios y gestión inicial de eventos. Asimismo, se acordó implementar la estructura base de la arquitectura de microservicios siguiendo principios de Domain-Driven Design (DDD), con el objetivo de disponer de una base escalable para futuros incrementos del producto.
+
 ---
 
 #### 5.3.1.2 Sprint Backlog 1
@@ -1608,7 +1609,7 @@ Figure 5.2.1.7.1 - Docker containers deployed on Ubuntu server.
 
 #### 5.3.1.8 Team Collaboration Insights during Sprint
 
-Durante el Sprint 1, el equipo trabajó de manera colaborativa utilizando GitHub para el control de versiones y Microsoft Teams/Discord para la coordinación de actividades. La distribución de responsabilidades permitió desarrollar de forma paralela las funcionalidades relacionadas con autenticación, gestión de eventos y arquitectura base de microservicios.
+Durante el Sprint 1, el equipo trabajó de manera colaborativa utilizando GitHub para el control de versiones y Google Meet para la coordinación de actividades. La distribución de responsabilidades permitió desarrollar de forma paralela las funcionalidades relacionadas con autenticación, gestión de eventos y arquitectura base de microservicios.
 
 La comunicación constante entre los integrantes facilitó la integración de los componentes desarrollados, así como la resolución temprana de problemas técnicos asociados a la implementación de la arquitectura distribuida.
 
