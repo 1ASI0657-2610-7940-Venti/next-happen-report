@@ -1560,33 +1560,84 @@ Durante el Sprint 1 se documentaron los microservicios implementados utilizando 
 
 #### Documentation Evidence
 
-Figure 5.2.1.5.1 - Swagger documentation for IAM Service.
+Figure 5.2.1.6.1 - Swagger documentation for IAM Service.
 
 <img src="assets/img/cap5/sprint1/swagger1.png" width="600"/>
 
-Figure 5.2.1.5.2 - Swagger documentation for Event Service.
+Figure 5.2.1.6.2 - Swagger documentation for Event Service.
 
 <img src="assets/img/cap5/sprint1/swagger2.png" width="600"/>
 
+---
 
-### 5.3.1.7 Software Deployment Evidence for Sprint Review
+#### 5.3.1.7 Software Deployment Evidence for Sprint Review
 
-Se configuró el despliegue mediante Docker para asegurar la portabilidad de los microservicios.
+Durante el Sprint 1 se realizó el despliegue inicial de la solución utilizando contenedores Docker. La arquitectura implementada permitió ejecutar de manera independiente los diferentes microservicios de la plataforma, facilitando la escalabilidad, mantenibilidad y despliegue de futuras versiones.
 
-**Commits de despliegue:**
-- `dbc302d`: chore: setup docker-compose for local development.
-- `88098c6`: build: add Dockerfile for backend services.
+La solución fue desplegada sobre un servidor Linux Ubuntu, donde cada bounded context fue ejecutado como un contenedor independiente. Asimismo, se configuró un API Gateway para centralizar el acceso a los servicios expuestos.
+
+##### Deployment Components
+
+| Component            | Deployment Technology | Status  |
+| -------------------- | --------------------- | ------- |
+| API Gateway          | Docker Container      | Running |
+| IAM Service          | Docker Container      | Running |
+| Event Service        | Docker Container      | Running |
+| Ticket Service       | Docker Container      | Running |
+| Engagement Service   | Docker Container      | Running |
+| Notification Service | Docker Container      | Running |
+
+##### Deployment Results
+
+| Validation                                | Result |
+| ----------------------------------------- | ------ |
+| Containers successfully deployed          | Passed |
+| Services accessible through exposed ports | Passed |
+| API Gateway operational                   | Passed |
+| Microservices execution verified          | Passed |
+| Swagger documentation available           | Passed |
+
+##### Deployment Evidence
+
+Figure 5.2.1.7.1 - Docker containers deployed on Ubuntu server.
+
+<img src="assets/img/cap5/sprint1/docker.png" width="600"/>
+
 
 ---
 
-### 5.3.1.8 Team Collaboration Insights during Sprint
+#### 5.3.1.8 Team Collaboration Insights during Sprint
 
-El equipo utilizó GitHub para la colaboración, evidenciando una participación activa de todos los integrantes.
+Durante el Sprint 1, el equipo trabajó de manera colaborativa utilizando GitHub para el control de versiones y Microsoft Teams/Discord para la coordinación de actividades. La distribución de responsabilidades permitió desarrollar de forma paralela las funcionalidades relacionadas con autenticación, gestión de eventos y arquitectura base de microservicios.
 
-**Estadísticas de colaboración:**
-- **Marco Nakasone:** 8 commits (Docker, Database, Event Service).
-- **Gonzalo Carhuancote:** 7 commits (User Registration, Auth Logic).
-- **Mateo Cabanillas:** 5 commits (Frontend Integration, JWT Setup).
+La comunicación constante entre los integrantes facilitó la integración de los componentes desarrollados, así como la resolución temprana de problemas técnicos asociados a la implementación de la arquitectura distribuida.
+
+##### Team Contribution Summary
+
+| Team Member                          | Main Contributions                                                                                                       |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Gonzalo Alonso Carhuancote Domínguez | Implementación del registro de usuarios, creación y actualización de eventos, soporte en arquitectura de microservicios. |
+| Jose Mateo Cabanillas Meza           | Implementación de autenticación JWT, login, validación de credenciales y pruebas funcionales.                            |
+| Marco Antonio Nakasone Gomes         | Implementación de consultas de eventos, soporte geográfico y coordinación de documentación técnica.                      |
+
+##### Sprint Insights
+
+| Aspect            | Observation                                                                        |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| Communication     | Effective communication through virtual meetings and messaging tools.              |
+| Task Distribution | Responsibilities were distributed according to technical specialization.           |
+| Integration       | Successful integration of developed microservices.                                 |
+| Challenges        | Initial configuration of the microservices architecture and service communication. |
+| Lessons Learned   | Early integration and frequent code reviews reduced development risks.             |
+
+---
+
+#### 5.3.1.9 Kanban Board 
+
+El tablero Kanban refleja el flujo de trabajo desde el Backlog hasta el estado de Finalizado.
+
+<img src="assets/img/cap5/sprint1/jirasprint1.png" width="600"/>
+
 
 ---
 
