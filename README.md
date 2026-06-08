@@ -1466,10 +1466,10 @@ Durante el Sprint 1 se desarrollaron las funcionalidades fundamentales de la pla
 ##### Development Evidence
 
 Figure 5.3.1.3.1 - GitHub commit history for Sprint 1.
-<img src="assets/img/cap5/unittest/unittest1.png" width="800"/>
+<img src="assets/img/cap5/sprint1/sprint1commits.png" width="600"/>
 
 Figure 5.3.1.3.2 - Backend microservices project structure.
-<img src="assets/img/cap5/unittest/unittest1.png" width="800"/>
+<img src="assets/img/cap5/sprint1/projectstructure.png" width="400"/>
 
 
 
