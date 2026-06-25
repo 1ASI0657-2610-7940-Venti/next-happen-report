@@ -1994,8 +1994,7 @@ Para resolver de manera óptima la **Gestión de Cupos (US22)** y mitigar riesgo
 
 Figure 5.3.3.3.1 - Historial de contribuciones del Sprint 3 en el repositorio del proyecto.
 
-*(Por favor, inserta aquí la captura de commits de tu repositorio para el Sprint 3)*
-`<img src="assets/img/cap5/sprint3/sprint3commits.png" width="600"/>`
+![image](assets/img/cap5/sprint3/sprint3commits.png)
 
 ---
 
@@ -2050,13 +2049,7 @@ La verificación funcional se llevó a cabo sobre los endpoints clave expuestos 
 
 Figure 5.3.3.5.1 - Ejecución exitosa de endpoints del Event Service en Swagger.
 
-*(Por favor, inserta aquí la captura de Swagger del Event Service para el Sprint 3)*
-`<img src="assets/img/cap5/sprint3/swagger_event_service.png" width="600"/>`
-
-Figure 5.3.3.5.2 - Lector de la aplicación móvil QR validando un código e interactuando con el backend.
-
-*(Por favor, inserta aquí la captura de tu aplicación móvil de escaneo de QR)*
-`<img src="assets/img/cap5/sprint3/mobile_scanner.png" width="600"/>`
+![image](assets/img/cap5/sprint3/swagger_event_service.png)
 
 ---
 
@@ -2075,8 +2068,7 @@ La documentación RESTful fue ampliada utilizando OpenAPI en Swagger, actualizan
 
 Figure 5.3.3.6.1 - Swagger UI reflejando los nuevos esquemas de validación QR.
 
-*(Por favor, inserta aquí la captura de la documentación Swagger del Ticket Service)*
-`<img src="assets/img/cap5/sprint3/swagger_ticket_service.png" width="600"/>`
+![image](assets/img/cap5/sprint3/swagger_ticket_service.png)
 
 ---
 
@@ -2124,8 +2116,7 @@ El flujo del Sprint 3 fue monitoreado y gestionado a través del tablero Kanban 
 
 Figure 5.3.3.9.1 - Estado final del tablero Kanban para el Sprint 3 (Avance 4).
 
-*(Por favor, inserta aquí la captura de pantalla de tu tablero Kanban/Jira para el Sprint 3)*
-`<img src="assets/img/cap5/sprint3/jirasprint3.png" width="600"/>`
+![image](assets/img/cap5/sprint3/image.png)
 
 [Enlace de la organización de GitHub](https://github.com/1ASI0657-2610-7940-Venti)
 
