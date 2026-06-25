@@ -1918,5 +1918,216 @@ El tablero Kanban refleja el flujo de trabajo desde el Backlog hasta el estado d
 
 [Enlace de la organización de GitHub](https://github.com/1ASI0657-2610-7940-Venti)
 
+---
+
+### 5.3.3 Sprint 3
+
+#### 5.3.3.1 Sprint Planning 3
+
+En esta sección se detallan los aspectos clave de la reunión de planificación para el tercer ciclo de desarrollo de NextHappen.
+
+| Sprint # | Sprint 3 |
+| :--- | :--- |
+| **Sprint Planning Background** | |
+| Fecha | 2026-06-01 |
+| Hora | 09:00 AM |
+| Lugar | Virtual (Google Meet) |
+| Preparado Por | Nakasone Gomes, Marco Antonio |
+| **Asistentes** | Cabanillas Meza, Jose Mateo / Nakasone Gomes, Marco Antonio / Carhuancote Dominguez, Gonzalo Alonso |
+| **Resumen Review Sprint 2** | Se completó satisfactoriamente la arquitectura de microservicios con comunicación asíncrona mediante RabbitMQ, la centralización a través de YARP API Gateway y los servicios de compra y emisión de boletos lógicos. |
+| **Resumen Retrospective Sprint 2**| El equipo identificó la necesidad de extender el flujo de tickets hacia la interacción en el mundo real, diseñar un control de concurrencia sólido para alta demanda y definir el escaneo QR. |
+| **Objetivo del Sprint 3** | Implementar la creación y edición de eventos para los organizadores, aplicar el control de cupos concurrentes y el bloqueo a nivel de base de datos en compras de tickets, integrar mapas con la API de Google Maps, y desplegar la entrada digital junto con el sistema de validación móvil por QR. |
+| **Velocidad del Sprint 3** | 35 Story Points |
+| **Suma de Story Points** | 35 |
+
+---
+
+#### 5.3.3.2 Sprint Backlog 3
+
+| User Story | Story Points | Tarea / Work-Item | Descripción | Asignado A | Estado |
+| :--- | :---: | :--- | :--- | :--- | :---: |
+| **US18 Publicar evento** | 5 | T09.01 Create Event Endpoint & UI | Desarrollo de endpoints en Event Service y formulario de creación en Vue.js. | Jose Mateo | Completado |
+| **US19 Editar evento** | 3 | T09.02 Update Event Metadata | Lógica y vistas para la edición de eventos publicados por el organizador. | Jose Mateo | Completado |
+| **US22 Gestión de cupos** | 5 | T09.03 Concurrency Stock Control | Implementación de reserva de cupo y bloqueo pesimista en base de datos para evitar sobreventas. | Jose Mateo | Completado |
+| **US07 Mapa interactivo** | 5 | T10.01 Google Maps API Integration | Integración del SDK de Google Maps en Vue.js y mapeo geolocalizado de eventos. | Marco Antonio | Completado |
+| **US33 Métricas asistencia** | 5 | T10.02 Attendance Analytics | Registro y visualización del porcentaje de asistencia real en el dashboard del organizador. | Marco Antonio | Completado |
+| **US25 Recuperar contraseña** | 2 | T10.03 Account Recovery Flow | Flujo de recuperación de accesos mediante tokens temporales y SMTP. | Marco Antonio | Completado |
+| **US12 Entrada digital** | 3 | T11.01 QR Code Generator | Lógica de cifrado de boletos y renderizado del código QR de la entrada en frontend. | Gonzalo Alonso | Completado |
+| **US13 Validación ticket** | 5 | T11.02 QR Scan Mobile Application | Desarrollo de la app móvil para lectura de QR y conexión segura con API de validación. | Gonzalo Alonso | Completado |
+| **US14 Historial de entradas** | 2 | T11.03 User Purchase History | Vista histórica de compras y boletos válidos del asistente. | Gonzalo Alonso | Completado |
+
+*Nota: La historia de usuario de búsqueda por filtros (US06) ha sido reprogramada estratégicamente para el Sprint 4 con el fin de priorizar la consolidación espacial basada en mapas interactivos y la validación en tiempo real en dispositivos móviles.*
+
+---
+
+#### 5.3.3.3 Development Evidence for Sprint Review
+
+Durante esta iteración, el esfuerzo del equipo se enfocó en cerrar la brecha entre el sistema digital de compras y la validación en el mundo real. 
+
+Para resolver de manera óptima la **Gestión de Cupos (US22)** y mitigar riesgos de sobreventa en picos de alta demanda, se implementó el **Patrón de Reserva Temporal de Cupos (Ticket Reservation Pattern)** mediante un bloqueo pesimista (`SELECT FOR UPDATE`) a nivel de base de datos MySQL en el microservicio `Ticket Service`. Esta transacción garantiza que el cupo permanezca bloqueado durante el procesamiento del pago, liberándose mediante transacciones de compensación en RabbitMQ si el pago no se completa.
+
+##### Repositorios y Commits del Desarrollo
+
+| Repositorio | Rama | ID Commit | Mensaje de Commit | Descripción | Fecha |
+| :--- | :--- | :--- | :--- | :--- | :---: |
+| next-happen-backend | master | d72e391 | feat: implement event creation and update endpoints | Endpoints de publicación y actualización de eventos en Event Service. | 2026-06-11 |
+| next-happen-backend | master | bc214fa | feat: implement pessimistic locking in event seat reservation | Mecanismo de bloqueo pesimista a nivel de base de datos para US22. | 2026-06-12 |
+| next-happen-backend | master | 7d5c90b | feat: secure qr code generation for tickets | Encriptación de datos del ticket y generación de imagen QR en backend. | 2026-06-12 |
+| next-happen-frontend | master | 5c92e10 | feat: integrate google maps api for event visualization | Consumo de la API de Google Maps y renderizado de pines dinámicos. | 2026-06-13 |
+| next-happen-mobile | master | a3d21f8 | feat: implement qr camera scanner module | Desarrollo de lector de cámara en la app móvil para validación física. | 2026-06-13 |
+| next-happen-backend | master | 9d5e31c | feat: add qr validation and check-in endpoints | Endpoint de validación y control de estado de boleto en Ticket Service. | 2026-06-14 |
+| next-happen-frontend | master | f3b207a | feat: add attendance metrics charts on organizer dashboard | Dashboard visual con porcentaje de check-in en tiempo real. | 2026-06-14 |
+| next-happen-backend | master | 6b9e24d | feat: password recovery workflow using SMTP tokens | Endpoints y envío de correos SMTP para restablecer contraseñas. | 2026-06-14 |
+
+##### Resumen de Componentes Desarrollados
+
+| Componente | Estado |
+| :--- | :---: |
+| Event Service (Creación/Edición) | Completado |
+| Ticket Service (Reserva y Bloqueo Pesimista) | Completado |
+| Google Maps API Web Integration | Completado |
+| Mobile QR Scanner App | Completado |
+| Attendance Metrics Tracker | Completado |
+| Password Recovery Module | Completado |
+
+##### Evidencia de Desarrollo
+
+Figure 5.3.3.3.1 - Historial de contribuciones del Sprint 3 en el repositorio del proyecto.
+
+*(Por favor, inserta aquí la captura de commits de tu repositorio para el Sprint 3)*
+`<img src="assets/img/cap5/sprint3/sprint3commits.png" width="600"/>`
+
+---
+
+#### 5.3.3.4 Testing Suite Evidence for Sprint Review
+
+Se implementaron y ejecutaron pruebas de validación rigurosas sobre los nuevos flujos funcionales del Sprint 3. En particular, se validó la consistencia en el control de stock concurrente y la correcta comunicación asíncrona mediante la cola de mensajería al registrar la asistencia.
+
+##### Testing Commits
+
+| Repositorio | Rama | ID Commit | Mensaje de Commit | Descripción | Fecha |
+| :--- | :--- | :--- | :--- | :--- | :---: |
+| next-happen-backend | test | f93e911 | feat: test suite for qr validation and stock locking | Casos de prueba unitaria e integración sobre reserva de cupos y QR. | 2026-06-14 |
+
+##### Resultados de las Pruebas
+
+| Tipo de Prueba | Módulo / Servicio | Resultado |
+| :--- | :--- | :---: |
+| Unit Tests | Event Service (Validación campos) | Pasado |
+| Unit Tests | Ticket Service (Bloqueo Pesimista) | Pasado |
+| Unit Tests | Password Recovery Token Flow | Pasado |
+| Integration Tests | API Gateway / Google Maps Proxy | Pasado |
+| Integration Tests | Mobile App to Ticket Service QR Validation | Pasado |
+| Integration Tests | Attendance Metric Persistence | Pasado |
+
+##### Evidencia de Pruebas
+
+Figure 5.3.3.4.1 - Ejecución de pruebas unitarias sobre los servicios core del Sprint 3.
+
+<img src="assets/img/cap5/unittest/unittest5.png" width="600"/>
+
+Figure 5.3.3.4.2 - Evidencia de pruebas de integración móvil-backend para lectura QR.
+
+<img src="assets/img/cap5/integraltest/intest5.png" width="600"/>
+
+---
+
+#### 5.3.3.5 Execution Evidence for Sprint Review
+
+La verificación funcional se llevó a cabo sobre los endpoints clave expuestos por el API Gateway y el consumo por parte de la aplicación móvil y el cliente web.
+
+##### APIs Ejecutadas
+
+| Funcionalidad | Endpoint expuesto por Gateway | Resultado |
+| :--- | :--- | :---: |
+| Crear Evento | POST `/api/events` | Éxito (Status 201) |
+| Actualizar Evento | PUT `/api/events/{id}` | Éxito (Status 200) |
+| Reservar Cupo | POST `/api/tickets/reserve` | Éxito (Status 200) |
+| Validar Ticket (QR) | POST `/api/tickets/validate-qr` | Éxito (Status 200) |
+| Obtener Métricas de Asistencia | GET `/api/engagement/events/{id}/attendance` | Éxito (Status 200) |
+
+##### Evidencia de Ejecución
+
+Figure 5.3.3.5.1 - Ejecución exitosa de endpoints del Event Service en Swagger.
+
+*(Por favor, inserta aquí la captura de Swagger del Event Service para el Sprint 3)*
+`<img src="assets/img/cap5/sprint3/swagger_event_service.png" width="600"/>`
+
+Figure 5.3.3.5.2 - Lector de la aplicación móvil QR validando un código e interactuando con el backend.
+
+*(Por favor, inserta aquí la captura de tu aplicación móvil de escaneo de QR)*
+`<img src="assets/img/cap5/sprint3/mobile_scanner.png" width="600"/>`
+
+---
+
+#### 5.3.3.6 Microservices Documentation Evidence for Sprint Review
+
+La documentación RESTful fue ampliada utilizando OpenAPI en Swagger, actualizando los esquemas del modelo de datos de geolocalización y los parámetros necesarios para la reserva y validación segura de tickets.
+
+##### Swagger Endpoints de los Nuevos Servicios
+
+| Microservicio | URL de Documentación | Estado |
+| :--- | :--- | :---: |
+| Event Service | http://159.112.143.58:5002/swagger/index.html | Actualizado |
+| Ticket Service | http://159.112.143.58:5003/swagger/index.html | Actualizado |
+
+##### Evidencia de Documentación
+
+Figure 5.3.3.6.1 - Swagger UI reflejando los nuevos esquemas de validación QR.
+
+*(Por favor, inserta aquí la captura de la documentación Swagger del Ticket Service)*
+`<img src="assets/img/cap5/sprint3/swagger_ticket_service.png" width="600"/>`
+
+---
+
+#### 5.3.3.7 Software Deployment Evidence for Sprint Review
+
+Los nuevos servicios de geolocalización y la base móvil de validación se desplegaron con éxito localmente a través de contenedores Docker. La arquitectura de microservicios se comunica transparentemente mediante el Gateway de YARP, resolviendo las peticiones del lector QR móvil hacia el puerto expuesto de manera segura.
+
+##### Componentes del Despliegue
+
+| Componente | Tecnología | Estado |
+| :--- | :--- | :---: |
+| API Gateway (YARP) | Contenedor Docker | Corriendo |
+| Event Service | Contenedor Docker | Corriendo |
+| Ticket Service | Contenedor Docker | Corriendo |
+| RabbitMQ | Contenedor Docker | Corriendo |
+| PostgreSQL / MySQL Instances | Contenedores Docker | Corriendo |
+
+---
+
+#### 5.3.3.8 Team Collaboration Insights during Sprint
+
+Durante el Sprint 3, la dinámica de trabajo colaborativa se dividió de acuerdo a las áreas técnicas principales de cada integrante, manteniendo reuniones diarias rápidas para destrabar dependencias críticas, en especial la interacción entre el desarrollo de la aplicación móvil de escaneo y los endpoints de validación en .NET 8.
+
+##### Resumen de Contribuciones del Equipo
+
+| Miembro del Equipo | Principales Aportes |
+| :--- | :--- |
+| Jose Mateo Cabanillas Meza | Implementación de creación/edición de eventos en backend y lógica de concurrencia pesimista en base de datos. |
+| Gonzalo Alonso Carhuancote Domínguez | Implementación de la Entrada Digital en frontend web y desarrollo de la aplicación móvil para escaneo y validación de códigos QR. |
+| Marco Antonio Nakasone Gomes | Integración del SDK de Google Maps API en el cliente web, desarrollo del Dashboard de Asistencia del organizador y flujo de recuperación de contraseñas. |
+
+##### Métricas de Colaboración
+
+| Aspecto | Observación |
+| :--- | :--- |
+| **Comunicación** | Uso intensivo de Discord para la integración móvil-backend y aclaración rápida de los esquemas del QR en el payload de red. |
+| **Gestión de Riesgos**| El equipo identificó tempranamente la necesidad de encriptar el contenido del QR para evitar falsificaciones, implementando un hash cifrado en el Ticket Service. |
+| **Lecciones Aprendidas**| La creación de un entorno híbrido (web y móvil) requiere una definición de contratos API extremadamente rigurosa antes de iniciar la codificación. |
+
+---
+
+#### 5.3.3.9 Kanban Board
+
+El flujo del Sprint 3 fue monitoreado y gestionado a través del tablero Kanban en Trello, donde se completaron las 9 tareas clave de esta entrega.
+
+Figure 5.3.3.9.1 - Estado final del tablero Kanban para el Sprint 3 (Avance 4).
+
+*(Por favor, inserta aquí la captura de pantalla de tu tablero Kanban/Jira para el Sprint 3)*
+`<img src="assets/img/cap5/sprint3/jirasprint3.png" width="600"/>`
+
+[Enlace de la organización de GitHub](https://github.com/1ASI0657-2610-7940-Venti)
+
 
 
