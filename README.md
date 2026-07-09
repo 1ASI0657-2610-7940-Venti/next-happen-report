@@ -53,31 +53,6 @@ Carhuancote Domminguez, Gonzalo Alonso (u202210720)
 | 4.0     | 06/06/2026 | Todos | Entrega de Trabajo Final (TF) - Mejoras Arquitectónicas y DDD |
 | 4.1     | 08/07/2026 | Todos | Errata técnica y endurecimiento de seguridad (alineación informe ↔ implementación) |
 
-> ### 📌 Nota de estado real de la implementación (v4.1)
->
-> Para mantener coherencia entre este informe y el código entregado, se aclara el
-> **stack realmente implementado** (algunas secciones del cap. IV describen
-> tecnologías que finalmente **no** se usaron; considérense como diseño exploratorio):
->
-> | Área | Descrito en el informe | **Implementado realmente** |
-> |------|------------------------|----------------------------|
-> | Backend | .NET 8 / .NET 9 / (una tabla dice Spring Boot) | **.NET 9 (ASP.NET Core)** |
-> | Base de datos | PostgreSQL / PostGIS / MongoDB / Cosmos DB | **MySQL 8** (una instancia, una BD lógica por servicio) |
-> | Caché | Redis (Cache-Aside) | **No implementado** |
-> | Service Discovery | Eureka | **No implementado** (YARP con destinos configurados) |
-> | Mensajería | RabbitMQ + MassTransit | **RabbitMQ + MassTransit** ✅ |
-> | Gateway | YARP/Ocelot con JWT centralizado | **YARP** con validación **JWT perimetral** + rate limiting ✅ |
-> | Despliegue | Azure AKS / ACR / Front Door | **Docker Compose** sobre servidor Linux |
-> | CI/CD | GitHub Actions + SonarCloud | **GitHub Actions** (build) — SonarCloud pendiente |
->
-> **Cambios de seguridad aplicados en v4.1:** se retiraron del repositorio todos los
-> secretos (JWT, contraseñas de BD y RabbitMQ, API key de Google Maps) y se movieron
-> a variables de entorno; CORS pasó de `AllowAnyOrigin` a whitelist configurable;
-> se añadió validación JWT y rate limiting en el gateway; el init de BD ahora hace
-> *fail-fast*; se unificó la capa HTTP del frontend (interceptor de token único);
-> y se **eliminó el monolito redundante**, consolidando en los 5 microservicios.
-> Las credenciales que estuvieron expuestas en el historial deben rotarse.
-
 # ABET – EAC - Student Outcome 7
 
 ## Aprendizaje Continuo y Autónomo
