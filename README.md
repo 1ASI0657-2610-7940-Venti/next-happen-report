@@ -51,6 +51,32 @@ Carhuancote Domminguez, Gonzalo Alonso (u202210720)
 | 2.0     | 01/05/2026 | Todos | Avance 2 TB1                |
 | 3.0     | 25/05/2026 | Todos | Entrega de Trabajo Parcial (TP) |
 | 4.0     | 06/06/2026 | Todos | Entrega de Trabajo Final (TF) - Mejoras Arquitectónicas y DDD |
+| 4.1     | 08/07/2026 | Todos | Errata técnica y endurecimiento de seguridad (alineación informe ↔ implementación) |
+
+> ### 📌 Nota de estado real de la implementación (v4.1)
+>
+> Para mantener coherencia entre este informe y el código entregado, se aclara el
+> **stack realmente implementado** (algunas secciones del cap. IV describen
+> tecnologías que finalmente **no** se usaron; considérense como diseño exploratorio):
+>
+> | Área | Descrito en el informe | **Implementado realmente** |
+> |------|------------------------|----------------------------|
+> | Backend | .NET 8 / .NET 9 / (una tabla dice Spring Boot) | **.NET 9 (ASP.NET Core)** |
+> | Base de datos | PostgreSQL / PostGIS / MongoDB / Cosmos DB | **MySQL 8** (una instancia, una BD lógica por servicio) |
+> | Caché | Redis (Cache-Aside) | **No implementado** |
+> | Service Discovery | Eureka | **No implementado** (YARP con destinos configurados) |
+> | Mensajería | RabbitMQ + MassTransit | **RabbitMQ + MassTransit** ✅ |
+> | Gateway | YARP/Ocelot con JWT centralizado | **YARP** con validación **JWT perimetral** + rate limiting ✅ |
+> | Despliegue | Azure AKS / ACR / Front Door | **Docker Compose** sobre servidor Linux |
+> | CI/CD | GitHub Actions + SonarCloud | **GitHub Actions** (build) — SonarCloud pendiente |
+>
+> **Cambios de seguridad aplicados en v4.1:** se retiraron del repositorio todos los
+> secretos (JWT, contraseñas de BD y RabbitMQ, API key de Google Maps) y se movieron
+> a variables de entorno; CORS pasó de `AllowAnyOrigin` a whitelist configurable;
+> se añadió validación JWT y rate limiting en el gateway; el init de BD ahora hace
+> *fail-fast*; se unificó la capa HTTP del frontend (interceptor de token único);
+> y se **eliminó el monolito redundante**, consolidando en los 5 microservicios.
+> Las credenciales que estuvieron expuestas en el historial deben rotarse.
 
 # ABET – EAC - Student Outcome 7
 
@@ -158,6 +184,28 @@ En el siguiente cuadro se describe las acciones realizadas y enunciados de concl
       - [5.3.2.7 Software Deployment Evidence for Sprint Review](#5327-software-deployment-evidence-for-sprint-review)
       - [5.3.2.8 Team Collaboration Insights during Sprint](#5328-team-collaboration-insights-during-sprint)
       - [5.3.2.9 Kanban Board](#5329-kanban-board)
+
+    - [5.3.3 Sprint 3](#533-sprint-3)
+      - [5.3.3.1 Sprint Planning 3](#5331-sprint-planning-3)
+      - [5.3.3.2 Sprint Backlog 3](#5332-sprint-backlog-3)
+      - [5.3.3.3 Development Evidence for Sprint Review](#5333-development-evidence-for-sprint-review)
+      - [5.3.3.4 Testing Suite Evidence for Sprint Review](#5334-testing-suite-evidence-for-sprint-review)
+      - [5.3.3.5 Execution Evidence for Sprint Review](#5335-execution-evidence-for-sprint-review)
+      - [5.3.3.6 Microservices Documentation Evidence for Sprint Review](#5336-microservices-documentation-evidence-for-sprint-review)
+      - [5.3.3.7 Software Deployment Evidence for Sprint Review](#5337-software-deployment-evidence-for-sprint-review)
+      - [5.3.3.8 Team Collaboration Insights during Sprint](#5338-team-collaboration-insights-during-sprint)
+      - [5.3.3.9 Kanban Board](#5339-kanban-board)
+
+    - [5.3.4 Sprint 4](#534-sprint-4)
+      - [5.3.4.1 Sprint Planning 4](#5341-sprint-planning-4)
+      - [5.3.4.2 Sprint Backlog 4](#5342-sprint-backlog-4)
+      - [5.3.4.3 Development Evidence for Sprint Review](#5343-development-evidence-for-sprint-review)
+      - [5.3.4.4 Testing Suite Evidence for Sprint Review](#5344-testing-suite-evidence-for-sprint-review)
+      - [5.3.4.5 Execution Evidence for Sprint Review](#5345-execution-evidence-for-sprint-review)
+      - [5.3.4.6 Microservices Documentation Evidence for Sprint Review](#5346-microservices-documentation-evidence-for-sprint-review)
+      - [5.3.4.7 Software Deployment Evidence for Sprint Review](#5347-software-deployment-evidence-for-sprint-review)
+      - [5.3.4.8 Team Collaboration Insights during Sprint](#5348-team-collaboration-insights-during-sprint)
+      - [5.3.4.9 Kanban Board](#5349-kanban-board)
 
 # Capítulo I: Introducción
 ## 1.1 Startup Profile
@@ -860,7 +908,7 @@ Para validar la arquitectura, se han definido escenarios de atributos de calidad
 | QA-04 | Atributo | Seguridad | Implementar autenticación JWT y cifrado de datos de perfiles y pagos. | Alta |
 | US06 | User Story | Búsqueda de Eventos | Como asistente, quiero filtrar ferias por categoría y ubicación para encontrar opciones de interés. | Alta |
 | US11 | User Story | Compra de Entradas | Como asistente, quiero realizar la compra de tickets y recibir un comprobante digital. | Alta |
-| CON-01 | Restricción | Base Tecnológica | Arquitectura de microservicios desarrollada con Spring Boot. | Alta |
+| CON-01 | Restricción | Base Tecnológica | Arquitectura de microservicios desarrollada con .NET 9 (ASP.NET Core). | Alta |
 
 #### 4.3.1.2 Establish Iteration Goal by Selecting Drivers
 
@@ -2117,6 +2165,229 @@ El flujo del Sprint 3 fue monitoreado y gestionado a través del tablero Kanban 
 Figure 5.3.3.9.1 - Estado final del tablero Kanban para el Sprint 3 (Avance 4).
 
 ![image](assets/img/cap5/sprint3/image.png)
+
+[Enlace de la organización de GitHub](https://github.com/1ASI0657-2610-7940-Venti)
+
+---
+
+### 5.3.4 Sprint 4
+
+#### 5.3.4.1 Sprint Planning 4
+
+En esta sección se detallan los aspectos principales de la reunión de planificación correspondiente al cuarto ciclo de desarrollo de NextHappen, orientado a la monetización de la plataforma y a la consolidación de la experiencia de usuario.
+
+| Sprint # | Sprint 4 |
+| :--- | :--- |
+| **Sprint Planning Background** | |
+| Fecha | 2026-06-15 |
+| Hora | 09:00 AM |
+| Lugar | Virtual (Google Meet) |
+| Preparado Por | Nakasone Gomes, Marco Antonio |
+| **Asistentes** | Cabanillas Meza, Jose Mateo / Nakasone Gomes, Marco Antonio / Carhuancote Dominguez, Gonzalo Alonso |
+| **Resumen Review Sprint 3** | Se completó la creación y edición de eventos, el control de cupos concurrentes con bloqueo pesimista, la integración de Google Maps y la emisión de la entrada digital con validación por QR. Sin embargo, la compra seguía operando con un flujo de tickets lógico, sin una pasarela de pago real. |
+| **Resumen Retrospective Sprint 3** | El equipo concluyó que, para que el producto sea comercializable, la venta de entradas debía integrarse con una pasarela de pago verificable, emitiendo el boleto únicamente tras confirmarse el cobro. Asimismo, se detectó que la validación en la puerta también se realiza desde computadoras de escritorio, por lo que el escaneo por cámara resultaba insuficiente por sí solo. |
+| **Objetivo del Sprint 4** | Integrar la pasarela de pago Stripe para el cobro real de entradas, emitiendo los boletos solo tras la confirmación del pago mediante webhooks idempotentes; incorporar un método de validación de acceso desde escritorio mediante código corto legible; habilitar la gestión de reembolsos; construir el panel de ventas del organizador; implementar el sistema de reseñas y calificaciones; y consolidar la experiencia de descubrimiento con recomendaciones personalizadas y una identidad visual unificada. |
+| **Velocidad del Sprint 4** | 40 Story Points |
+| **Suma de Story Points** | 40 |
+
+---
+
+#### 5.3.4.2 Sprint Backlog 4
+
+| User Story | Story Points | Tarea / Work-Item | Descripción | Asignado A | Estado |
+| :--- | :---: | :--- | :--- | :--- | :---: |
+| **US11 Compra de entradas** | 8 | T12.01 Stripe Checkout Integration | Integración de Stripe Checkout y redirección segura a la pasarela de pago desde el detalle del evento. | Gonzalo Alonso | Completado |
+| **US11 Compra de entradas** | 5 | T12.02 Payment Webhook & Order Persistence | Manejo idempotente de webhooks (`checkout.session.completed` / `expired`) y persistencia del pedido en el Ticket Service. | Gonzalo Alonso | Completado |
+| **US12 Entrada digital** | 3 | T12.03 QR & Short Code Issuance | Emisión de la entrada tras el pago confirmado, con código QR y código corto legible por boleto. | Jose Mateo | Completado |
+| **US13 Validación de ticket** | 5 | T13.01 Desktop Validation Module | Validación en la puerta desde escritorio mediante código corto y lista de asistentes con check-in de un clic. | Jose Mateo | Completado |
+| **US11 Compra de entradas** | 3 | T13.02 Stripe Refunds | Reembolso de entradas a través de Stripe Refunds y liberación del cupo reservado. | Gonzalo Alonso | Completado |
+| **US31 Métricas de ventas** | 5 | T14.01 Organizer Sales Dashboard | Panel de ingresos, entradas vendidas, asistencia validada y desglose por evento. | Marco Antonio | Completado |
+| **Reseñas (Hipótesis 5)** | 5 | T14.02 Reviews & Ratings Service | Sistema de reseñas y calificación por estrellas en el Engagement Service, con promedio y distribución por evento. | Marco Antonio | Completado |
+| **US15 Recomendaciones** | 3 | T15.01 Personalized Recommendations | Recomendaciones en el home según los intereses guardados por el usuario y la proximidad temporal del evento. | Marco Antonio | Completado |
+| **US06 Búsqueda por filtros** | 3 | T15.02 Filtered Search | Consolidación de la búsqueda por categoría y fecha, historia reprogramada desde el Sprint 3. | Gonzalo Alonso | Completado |
+
+*Nota: La historia de usuario de búsqueda por filtros (US06), reprogramada estratégicamente en el Sprint 3, fue completada en este ciclo junto con las funcionalidades de monetización.*
+
+---
+
+#### 5.3.4.3 Development Evidence for Sprint Review
+
+Durante esta iteración el esfuerzo del equipo se centró en convertir NextHappen en un producto comercializable, cerrando el flujo de venta con una pasarela de pago real y reforzando la confianza del usuario mediante reseñas y una interfaz consistente.
+
+Para el cobro se integró **Stripe Checkout** en modo de pago único. El flujo reserva los cupos y crea un pedido en estado `Pending`; la entrada **solo se emite** cuando Stripe confirma el cobro a través del webhook `checkout.session.completed`. El manejo es **idempotente**, de modo que los reintentos de Stripe no duplican boletos, y ante la expiración de la sesión (`checkout.session.expired`) se liberan los cupos previamente reservados. Cada entrada emitida incluye, además del código QR, un **código corto legible de seis caracteres** (con un alfabeto sin caracteres ambiguos) que permite validar el ingreso desde una computadora de escritorio sin depender de la cámara, complementando el escáner móvil del Sprint 3.
+
+##### Repositorios y Commits del Desarrollo
+
+| Repositorio | Rama | ID Commit | Mensaje de Commit | Descripción | Fecha |
+| :--- | :--- | :--- | :--- | :--- | :---: |
+| next-happen-backend | master | 4f1c8a2 | feat: integrate Stripe Checkout and payment webhooks | Cobro con Stripe y emisión de entradas condicionada al webhook de pago. | 2026-06-18 |
+| next-happen-backend | master | b7fbc1a | feat: order aggregate and idempotent webhook handling | Persistencia de pedidos y procesamiento idempotente de eventos de Stripe. | 2026-06-20 |
+| next-happen-backend | master | 9c33e07 | feat: qr and human-readable short code per ticket | Generación de QR y código corto legible por entrada. | 2026-06-22 |
+| next-happen-backend | master | 1a7d4be | feat: desktop ticket validation and attendee list | Validación por código corto y check-in desde la lista del evento. | 2026-06-24 |
+| next-happen-backend | master | e58b210 | feat: stripe refunds and seat release | Reembolso de entradas y liberación del cupo reservado. | 2026-06-26 |
+| next-happen-backend | master | 7d9a1f4 | feat: reviews and ratings in engagement service | Reseñas con calificación por estrellas, promedio y distribución. | 2026-06-28 |
+| next-happen-frontend | master | 48a5277 | feat: stripe checkout ui, sales dashboard and reviews | Flujo de pago, panel de ventas y reseñas en el cliente web. | 2026-07-02 |
+| next-happen-frontend | master | 3b6c9d1 | feat: recommendations home and unified retro ui | Recomendaciones personalizadas y sistema de diseño unificado. | 2026-07-05 |
+
+##### Resumen de Componentes Desarrollados
+
+| Componente | Estado |
+| :--- | :---: |
+| Ticket Service (Stripe Checkout + Webhooks) | Completado |
+| Order Aggregate (Persistencia de pedidos) | Completado |
+| QR + Código Corto de Validación | Completado |
+| Validación de Acceso desde Escritorio | Completado |
+| Módulo de Reembolsos (Stripe Refunds) | Completado |
+| Organizer Sales Dashboard | Completado |
+| Reviews & Ratings (Engagement Service) | Completado |
+| Recomendaciones Personalizadas | Completado |
+| Sistema de Diseño Unificado (Web) | Completado |
+
+##### Evidencia de Desarrollo
+
+Figure 5.3.4.3.1 - Historial de contribuciones del Sprint 4 en el repositorio del proyecto.
+
+![image](assets/img/cap5/sprint4/sprint4commits.png)
+
+Figure 5.3.4.3.2 - Flujo de pago con Stripe Checkout desde el cliente web.
+
+![image](assets/img/cap5/sprint4/stripe_checkout.png)
+
+---
+
+#### 5.3.4.4 Testing Suite Evidence for Sprint Review
+
+Se implementaron y ejecutaron pruebas sobre los nuevos flujos de monetización y validación. Las pruebas verificaron que las entradas se emitan únicamente tras el pago confirmado, que el procesamiento de webhooks sea idempotente frente a reintentos, que el código corto y el QR resuelvan al mismo boleto, y que el reembolso libere correctamente el cupo.
+
+##### Testing Commits
+
+| Repositorio | Rama | ID Commit | Mensaje de Commit | Descripción | Fecha |
+| :--- | :--- | :--- | :--- | :--- | :---: |
+| next-happen-backend | test | c41f0a8 | feat: test suite for stripe webhooks and ticket validation | Casos de prueba unitaria e integración sobre pagos, emisión y validación de entradas. | 2026-07-06 |
+
+##### Resultados de las Pruebas
+
+| Tipo de Prueba | Módulo / Servicio | Resultado |
+| :--- | :--- | :---: |
+| Unit Tests | Ticket Service (Emisión post-pago) | Pasado |
+| Unit Tests | Ticket Service (Idempotencia de Webhook) | Pasado |
+| Unit Tests | Ticket Service (Validación por código corto) | Pasado |
+| Unit Tests | Engagement Service (Reseñas y promedio) | Pasado |
+| Integration Tests | Stripe Checkout → Emisión de entradas | Pasado |
+| Integration Tests | API Gateway → Rutas de pagos, ventas y reseñas | Pasado |
+| Integration Tests | Reembolso → Liberación de cupo | Pasado |
+
+##### Evidencia de Pruebas
+
+Figure 5.3.4.4.1 - Ejecución de pruebas unitarias sobre los servicios de pago y reseñas del Sprint 4.
+
+<img src="assets/img/cap5/unittest/unittest6.png" width="600"/>
+
+Figure 5.3.4.4.2 - Evidencia de pruebas de integración del flujo de pago con Stripe.
+
+<img src="assets/img/cap5/integraltest/intest6.png" width="600"/>
+
+---
+
+#### 5.3.4.5 Execution Evidence for Sprint Review
+
+La verificación funcional se realizó sobre los endpoints expuestos por el API Gateway, validando el ciclo completo de compra, emisión, validación y reembolso, así como la publicación y consulta de reseñas.
+
+##### APIs Ejecutadas
+
+| Funcionalidad | Endpoint expuesto por Gateway | Resultado |
+| :--- | :--- | :---: |
+| Iniciar pago (Checkout) | POST `/api/payments/checkout` | Éxito (Status 200) |
+| Confirmar pago (Webhook) | POST `/api/payments/webhook` | Éxito (Status 200) |
+| Validar entrada (código / QR) | POST `/api/tickets/validate` | Éxito (Status 200) |
+| Reembolsar entrada | POST `/api/tickets/{id}/refund` | Éxito (Status 200) |
+| Resumen de ventas del evento | GET `/api/events/{id}/sales` | Éxito (Status 200) |
+| Publicar / consultar reseñas | POST / GET `/api/events/{id}/reviews` | Éxito (Status 200) |
+
+##### Evidencia de Ejecución
+
+Figure 5.3.4.5.1 - Entrada digital con código QR y código corto en "Mis Entradas".
+
+![image](assets/img/cap5/sprint4/qr_shortcode_ticket.png)
+
+Figure 5.3.4.5.2 - Panel de ventas del organizador con ingresos y asistencia.
+
+![image](assets/img/cap5/sprint4/sales_dashboard.png)
+
+---
+
+#### 5.3.4.6 Microservices Documentation Evidence for Sprint Review
+
+La documentación RESTful se amplió con los nuevos contratos de pago, validación, ventas y reseñas, actualizando los esquemas de OpenAPI en Swagger para el Ticket Service y el Engagement Service.
+
+##### Swagger Endpoints de los Nuevos Servicios
+
+| Microservicio | URL de Documentación | Estado |
+| :--- | :--- | :---: |
+| Ticket Service (Pagos y Validación) | http://159.112.143.58:5003/swagger/index.html | Actualizado |
+| Engagement Service (Reseñas) | http://159.112.143.58:5004/swagger/index.html | Actualizado |
+
+##### Evidencia de Documentación
+
+Figure 5.3.4.6.1 - Swagger UI reflejando los endpoints de pago y reseñas.
+
+![image](assets/img/cap5/sprint4/swagger_payment_service.png)
+
+---
+
+#### 5.3.4.7 Software Deployment Evidence for Sprint Review
+
+El incremento se desplegó sobre la infraestructura de producción del proyecto. El backend se ejecuta en un servidor Linux mediante contenedores Docker orquestados con Docker Compose, con la base de datos MySQL gestionada en Aiven y el cliente web publicado en Vercel. El webhook de Stripe se configuró contra el dominio público del gateway para recibir las confirmaciones de pago en tiempo real.
+
+##### Componentes del Despliegue
+
+| Componente | Tecnología | Estado |
+| :--- | :--- | :---: |
+| API Gateway (YARP) | Contenedor Docker | Corriendo |
+| Ticket Service (Stripe) | Contenedor Docker | Corriendo |
+| Engagement Service (Reseñas) | Contenedor Docker | Corriendo |
+| RabbitMQ | Contenedor Docker | Corriendo |
+| Base de datos MySQL | Aiven (Managed MySQL) | Corriendo |
+| Cliente Web | Vercel | Desplegado |
+| Webhook de Stripe | Endpoint público HTTPS | Configurado |
+
+##### Evidencia de Despliegue
+
+Figure 5.3.4.7.1 - Configuración del webhook de Stripe apuntando al gateway en producción.
+
+<img src="assets/img/cap5/sprint4/stripe_webhook_deploy.png" width="600"/>
+
+---
+
+#### 5.3.4.8 Team Collaboration Insights during Sprint
+
+Durante el Sprint 4 el trabajo se organizó en torno a tres frentes: la integración de pagos y el ciclo de vida del boleto, el panel de métricas y las reseñas, y la consolidación de la interfaz. Se mantuvieron reuniones cortas para coordinar la dependencia crítica entre la emisión de entradas y la confirmación asíncrona del pago, así como para acordar el contrato de los nuevos endpoints antes de su consumo desde el frontend.
+
+##### Resumen de Contribuciones del Equipo
+
+| Miembro del Equipo | Principales Aportes |
+| :--- | :--- |
+| Gonzalo Alonso Carhuancote Domínguez | Integración de Stripe Checkout y webhooks, persistencia de pedidos, reembolsos y consolidación de la búsqueda por filtros. |
+| Jose Mateo Cabanillas Meza | Emisión de entradas con QR y código corto, y módulo de validación de acceso desde escritorio con lista de asistentes. |
+| Marco Antonio Nakasone Gomes | Panel de ventas del organizador, sistema de reseñas y calificaciones, recomendaciones personalizadas y sistema de diseño unificado. |
+
+##### Métricas de Colaboración
+
+| Aspecto | Observación |
+| :--- | :--- |
+| **Comunicación** | Coordinación por Discord para alinear la emisión de boletos con la confirmación asíncrona del pago y el contrato de los webhooks. |
+| **Gestión de Riesgos** | Se priorizó la idempotencia del webhook y la emisión post-pago para evitar entradas duplicadas o boletos emitidos sin cobro. |
+| **Lecciones Aprendidas** | Probar cada flujo nuevo contra el entorno desplegado —y no solo en local— fue clave para detectar temas de enrutamiento del gateway y de esquema de base de datos antes de la entrega. |
+
+---
+
+#### 5.3.4.9 Kanban Board
+
+El flujo del Sprint 4 fue gestionado a través del tablero Kanban, donde se completaron las historias de monetización, validación, métricas y reseñas planificadas para esta entrega final.
+
+Figure 5.3.4.9.1 - Estado final del tablero Kanban para el Sprint 4.
+
+![image](assets/img/cap5/sprint4/kanban4.png)
 
 [Enlace de la organización de GitHub](https://github.com/1ASI0657-2610-7940-Venti)
 
